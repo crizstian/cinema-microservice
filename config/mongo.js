@@ -1,6 +1,5 @@
-'use strict'
-const {MongoClient} = require('mongodb')
-const assert = require('assert')
+const MongoClient = require('mongodb')
+const test = require('assert')
 
 const getMongoURL = (options) => {
   let url = 'mongodb://'
@@ -12,14 +11,7 @@ const getMongoURL = (options) => {
   return `${url.substr(0, url.length - 1)}/${options.db}`
 }
 
-const connectToMongo = (options) => {
-
-  return new Promise((resolve, reject) => {
-
-  })
-}
-
-module.exports.connect = (options) => {
+const connect = (options, mediator) => {
   MongoClient.connect(getMongoURL(options), {
     db: {
       w: 'majority',
@@ -31,7 +23,7 @@ module.exports.connect = (options) => {
     server: {
       autoReconnect: true,
       poolSize: 10,
-      socketOptions: {
+      socketoptions: {
         keepAlive: 300,
         connectTimeoutMS: 30000,
         socketTimeoutMS: 30000
@@ -42,27 +34,29 @@ module.exports.connect = (options) => {
       ha: true,
       haInterval: 10000,
       poolSize: 10,
-      socketOptions: {
+      socketoptions: {
         keepAlive: 300,
         connectTimeoutMS: 30000,
         socketTimeoutMS: 30000
       }
     }
   }, function (err, db) {
+    if (err) {
+      mediator.emit('db.error', err)
+    }
     // Use the admin database for the operation
     const adminDb = db.admin()
 
     // Authenticate using the newly added user
     adminDb.authenticate(options.user, options.pass, (err, result) => {
       if (err) {
-        console.log(err)
+        mediator.emit('db.error', err)
       }
-      adminDb.listDatabases(function(err, dbs) {
-        test.equal(null, err)
-        test.ok(dbs.databases.length > 0)
-        console.log(dbs.databases)
-        db.close()
-      })
+      mediator.emit('db.ready', db)
     })
   })
 }
+
+// connect(require('./config').dbOptions)
+
+module.exports.connect = connect
