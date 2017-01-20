@@ -1,5 +1,9 @@
 const should = require('should')
+const test = require('assert')
+const {EventEmitter} = require('events')
 const repository = require('./repository')
+const mongo = require('../config/mongo')
+const {dbSettings} = require('../config/config')
 
 describe('Repository', () => {
 
@@ -7,14 +11,33 @@ describe('Repository', () => {
     repository.connect({}).should.be.a.Promise()
   })
 
-  it('should return movie collection', () => {
-    repository.connect({})
-      .then(repo => {
-        return repo.getMoviePremiers()
-      })
-      .then(movies => {
-        movies.should.be.a.Array()
-      })
+  it('should emit db Object with an EventEmitter', (done) => {
+    const mediator = new EventEmitter()
+
+    mediator.on('db.ready', (db) => {
+      repository.connect(db)
+        .then(repo => {
+          return repo.getMoviePremiers()
+        })
+        .then(movies => {
+          console.log(movies)
+          db.close()
+          done()
+        })
+        .catch(err => {
+          console.log(err)
+          db.close()
+          done()
+        })
+    })
+
+    mediator.on('db.error', (err) => {
+      console.log(err)
+    })
+
+    mongo.connect(dbSettings, mediator)
+
+    mediator.emit('boot.ready')
   })
 
 })
