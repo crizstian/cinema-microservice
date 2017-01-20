@@ -1,70 +1,67 @@
 'use strict'
-const mongo = require('mongodb')
+const {MongoClient} = require('mongodb')
 const assert = require('assert')
-const Server  = mongo.Server
-const Db      = mongo.Db
-const ReplSet = mongo.ReplSet
 
-const addReplicaSetServers = (servers) => {
-  const replSetServers = []
+const getMongoURL = (options) => {
+  let url = 'mongodb://'
 
-  servers.forEach((server) => {
-    replSetServers.push(new Server(server.ip, server.port))
+  options.servers.forEach((server) => {
+    url += `${server.ip}:${server.port},`
   })
 
-  return replSetServers
+  return `${url.substr(0, url.length - 1)}/${options.db}`
 }
 
-const createReplicaSet = (replSetServers, ReplSetName) => {
-  return new ReplSet(replSetServers, {
-    rs_name                      : ReplSetName,
-    ha                           : true,
-    haInterval                   : 3000,
-    reconnectWait                : 5000,
-    connectWithNoPrimary         : true,
-    poolSize                     : 10,
-    read_secondary: true,
-    readPreference: Server.READ_PRIMARY,
-    slaveOk: true,
-    secondaryAcceptableLatencyMS:500,
-    stragegy: 'ping',
-    socketOptions : {
-      keepAlive : 300,
-      connectTimeoutMS : 30000
-    }
+const connectToMongo = (options) => {
+
+  return new Promise((resolve, reject) => {
+
   })
 }
 
-const createDatabaseInstance = (options) => {
-
-  const replSetServers = addReplicaSetServers(options.servers)
-  const replicaSetConfig = createReplicaSet(replSetServers, options.repl)
-
-  return new Db(options.db, replicaSetConfig, {
-    w              : 'majority',
-    j              : true,
-    wtimeout       : 10000,
-    readPreference : "ReadPreference.SECONDARY_PREFERRED", // the prefered read preference (Server.READ_PRIMARY, Server.READ_SECONDARY, Server.READ_SECONDARY_ONLY)
-    native_parser:false,
-    slaveOk: true ,
-    maxPoolSize:1000,
-    connectTimeoutMS:1000,
-    socketTimeoutMS:1000
-  })
-}
-
-module.exports.connect = (mediator, options) => {
-  mediator.once('boot.ready', () => {
-    console.log('BOOOOTEDDDD');
-    const db = createDatabaseInstance(options)
-    db.open(function (err) {
-      console.log('OPEEEEEEENNNN');
-      if (err) {
-        mediator.emit('db.error', new Error(err))
+module.exports.connect = (options) => {
+  MongoClient.connect(getMongoURL(options), {
+    db: {
+      w: 'majority',
+      wtimeout: 10000,
+      j: true,
+      readPreference: 'ReadPreference.SECONDARY_PREFERRED',
+      native_parser:false,
+    },
+    server: {
+      autoReconnect: true,
+      poolSize: 10,
+      socketOptions: {
+        keepAlive: 300,
+        connectTimeoutMS: 30000,
+        socketTimeoutMS: 30000
       }
-      db.admin().authenticate(options.user, options.pass, (err, result) => {
-        assert.equal(result, true)
-        mediator.emit('db.ready', db)
+    },
+    replset: {
+      replicaSet: options.repl,
+      ha: true,
+      haInterval: 10000,
+      poolSize: 10,
+      socketOptions: {
+        keepAlive: 300,
+        connectTimeoutMS: 30000,
+        socketTimeoutMS: 30000
+      }
+    }
+  }, function (err, db) {
+    // Use the admin database for the operation
+    const adminDb = db.admin()
+
+    // Authenticate using the newly added user
+    adminDb.authenticate(options.user, options.pass, (err, result) => {
+      if (err) {
+        console.log(err)
+      }
+      adminDb.listDatabases(function(err, dbs) {
+        test.equal(null, err)
+        test.ok(dbs.databases.length > 0)
+        console.log(dbs.databases)
+        db.close()
       })
     })
   })

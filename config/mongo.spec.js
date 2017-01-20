@@ -1,28 +1,84 @@
-const should = require('should')
-const mongo = require('./mongo')
+// const should = require('should')
+// const mongo = require('./mongo')
 const {dbOptions} = require('./config')
-const EventEmitter = require('events')
+// const {EventEmitter} = require('events')
+//
+//
+// describe('Mongo Connection', () => {
+//
+//   it('should connect with an EventEmitter', () => {
+//     mongo.connect({}, dbdbOptions)
+//       .then(db => {
+//         // List all the available databases
+//         db.listDatabases(function(err, dbs) {
+//           test.equal(null, err)
+//           test.ok(dbs.databases.length > 0)
+//           console.log(dbs.databases)
+//           db.close()
+//         });
+//       })
+//       .catch(err => {
+//         console.log(err)
+//       })
+//   })
+// })
 
 
-describe('Mongo Connection', () => {
+const MongoClient = require('mongodb')
+const test = require('assert')
 
-  it('should connect with an EventEmitter', () => {
-    const mediator = new EventEmitter()
-    mongo.connect(mediator, dbOptions)
+const getMongoURL = (options) => {
+  let url = 'mongodb://'
 
-    mediator.on('db.ready', (db) => {
-      console.log('fuck yea')
-      console.log(db)
-    })
-
-    mediator.on('db.error', (err) => {
-      console.log('fuck!!!!!')
-
-      console.log(err)
-    })
-
-    mediator.emit('boot.ready')
+  options.servers.forEach((server) => {
+    url += `${server.ip}:${server.port},`
   })
 
+  return `${url.substr(0, url.length - 1)}/${options.db}`
+}
 
+MongoClient.connect(getMongoURL(dbOptions), {
+  db: {
+    w: 'majority',
+    wtimeout: 10000,
+    j: true,
+    readPreference: 'ReadPreference.SECONDARY_PREFERRED',
+    native_parser:false,
+  },
+  server: {
+    autoReconnect: true,
+    poolSize: 10,
+    socketdbOptions: {
+      keepAlive: 300,
+      connectTimeoutMS: 30000,
+      socketTimeoutMS: 30000
+    }
+  },
+  replset: {
+    replicaSet: dbOptions.repl,
+    ha: true,
+    haInterval: 10000,
+    poolSize: 10,
+    socketdbOptions: {
+      keepAlive: 300,
+      connectTimeoutMS: 30000,
+      socketTimeoutMS: 30000
+    }
+  }
+}, function (err, db) {
+  // Use the admin database for the operation
+  const adminDb = db.admin()
+
+  // Authenticate using the newly added user
+  adminDb.authenticate(dbOptions.user, dbOptions.pass, (err, result) => {
+    if (err) {
+      console.log(err)
+    }
+    adminDb.listDatabases(function(err, dbs) {
+      test.equal(null, err)
+      test.ok(dbs.databases.length > 0)
+      console.log(dbs.databases)
+      db.close()
+    })
+  })
 })
