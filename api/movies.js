@@ -11,7 +11,7 @@ module.exports = (app, options) => {
     }).catch(next)
   })
 
-  app.get('/movies/premiers', (req, res, next) => {
+  app.get('/movies/premieres', (req, res, next) => {
     repo.getMoviePremiers().then(movies => {
       res.status(status.OK).json(movies)
     }).catch(next)
