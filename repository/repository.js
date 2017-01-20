@@ -3,6 +3,8 @@ const moviesMock = require('../mock/movies')
 
 const repository = (db) => {
 
+  const collection = db.collection('movies')
+
   const getMoviePremiers = () => {
     return new Promise((resolve, reject) => {
       const movies = []
@@ -20,8 +22,7 @@ const repository = (db) => {
           $lte: currentDay.getDate()
         }
       }
-      console.log(query)
-      const cursor = db.collection('movies').find(query)
+      const cursor = collection.find(query)
       cursor.forEach((movie) => {
         movies.push(movie)
       }, (err) => {
@@ -33,8 +34,26 @@ const repository = (db) => {
     })
   }
 
+  const getMovieById = (id) => {
+    return new Promise((resolve, reject) => {
+      const projection = { _id: 0, id: 1, title: 1, format: 1 }
+      collection.findOne({id: id}, projection, (err, movie) => {
+        if (err) {
+          reject(new Error(`An error occured fetching movie with id: ${id}, err: ${err}`))
+        }
+        resolve(movie)
+      })
+    })
+  }
+
+  const disconnect = () => {
+    db.close()
+  }
+
   return Object.create({
-    getMoviePremiers
+    getMoviePremiers,
+    getMovieById,
+    disconnect
   })
 }
 
