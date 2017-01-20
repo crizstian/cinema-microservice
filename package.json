@@ -16,6 +16,10 @@
     "supertest": "^2.0.1"
   },
   "dependencies": {
-    "mongodb": "^2.1.18"
+    "eslint": "^3.13.1",
+    "express": "^4.14.0",
+    "http-status": "^0.2.5",
+    "mongodb": "^2.1.18",
+    "morgan": "^1.7.0"
   }
 }
