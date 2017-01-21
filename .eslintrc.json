@@ -1,0 +1,67 @@
+{
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "comma-dangle": ["error", "never"],
+        "padded-blocks": [2, "never"],
+        "no-multi-spaces": ["error", {
+            "exceptions": {
+                "ImportDeclaration": true,
+                "VariableDeclarator": true
+            }
+        }],
+        "key-spacing": [0, {
+            "multiLine": {
+                "beforeColon": true,
+                "afterColon": true
+            },
+            "align": {
+                "beforeColon": true,
+                "afterColon": true,
+                "on": "colon"
+            }
+        }],
+        "new-cap": ["error", {
+            "properties": false
+        }],
+        "no-unused-vars": ["error", {
+            "args": "none",
+            "varsIgnorePattern": "should"
+        }],
+        "no-restricted-syntax": [0, "FunctionExpression", "WithStatement"],
+        "max-len": [2, {
+            "code": 150,
+            "tabWidth": 2,
+            "ignoreUrls": true,
+            "comments": 220,
+            "ignoreTemplateLiterals": true
+        }],
+        "no-underscore-dangle": ["error", {
+            "allow": ["_id","_router"],
+            "allowAfterThis": true,
+            "allowAfterSuper": true
+        }],
+        "no-mixed-spaces-and-tabs": 0,
+        "no-tabs": 0,
+        "indent": ["error", 2],
+        "space-before-function-paren": [2, {
+            "anonymous": "always",
+            "named": "never"
+        }],
+        "no-use-before-define": [2, "nofunc"],
+        "func-names": ["error", "never"],
+        "import/no-extraneous-dependencies": 0,
+        "no-shadow": [0, { "hoist": "never" }],
+        "no-param-reassign": ["error", { "props": false }],
+        "class-methods-use-this": [0],
+        "no-console": 0,
+        "disallowTabs": 0,
+        "arrow-body-style": 0
+    }
+}

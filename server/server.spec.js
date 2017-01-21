@@ -2,7 +2,6 @@ const should = require('should')
 const server = require('./server')
 
 describe('Server', () => {
-
   it('should require a port to start', () => {
     return server.start({
       repo: {}
@@ -14,5 +13,4 @@ describe('Server', () => {
       port: {}
     }).should.be.rejectedWith(/repository/)
   })
-
 })

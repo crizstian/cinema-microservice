@@ -7,7 +7,7 @@ const dbSettings = {
    { ip: '192.168.99.100', port: 27017 },
    { ip: '192.168.99.101', port: 27017 },
    { ip: '192.168.99.102', port: 27017 }
- ]
+  ]
 }
 
 const serverSettings = {

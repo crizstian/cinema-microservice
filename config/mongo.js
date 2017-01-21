@@ -1,12 +1,8 @@
 const MongoClient = require('mongodb')
-const test = require('assert')
 
 const getMongoURL = (options) => {
-
-  const url = options.servers.reduce((prev, cur) => {
-    prev += `${cur.ip}:${cur.port},`
-    return prev
-  }, 'mongodb://')
+  const url = options.servers
+    .reduce((prev, cur) => prev + `${cur.ip}:${cur.port},`, 'mongodb://')
 
   return `${url.substr(0, url.length - 1)}/${options.db}`
 }
@@ -16,7 +12,7 @@ const dbParameters = () => ({
   wtimeout: 10000,
   j: true,
   readPreference: 'ReadPreference.SECONDARY_PREFERRED',
-  native_parser:false,
+  native_parser:false
 })
 
 const serverParameters = () => ({
@@ -59,7 +55,7 @@ const connect = (options, mediator) => {
           }
           mediator.emit('db.ready', db)
         })
-    })
+      })
   })
 }
 

@@ -2,7 +2,6 @@
 const status = require('http-status');
 
 module.exports = (app, options) => {
-
   const {repo} = options
 
   app.get('/movies', (req, res, next) => {
@@ -22,5 +21,4 @@ module.exports = (app, options) => {
       res.status(status.OK).json(movie)
     }).catch(next)
   })
-
 }

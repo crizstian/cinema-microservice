@@ -3,49 +3,46 @@ const should = require('should')
 const server = require('../server/server')
 
 describe('Movies API', () => {
-
   let app = null
   let testMovies = [{
-	"id" : "3",
-	"title" : "xXx: Reactivado",
-	"format" : "IMAX",
-	"releaseYear" : 2017,
-	"releaseMonth" : 1,
-	"releaseDay" : 20
-},
-{
-	"id" : "4",
-	"title" : "Resident Evil: Capitulo Final",
-	"format" : "IMAX",
-	"releaseYear" : 2017,
-	"releaseMonth" : 1,
-	"releaseDay" : 27
-},
-{
-	"id" : "1",
-	"title" : "Assasins Creed",
-	"format" : "IMAX",
-	"releaseYear" : 2017,
-	"releaseMonth" : 1,
-	"releaseDay" : 6
-}]
+  	'id'           : '3',
+  	'title'        : 'xXx: Reactivado',
+  	'format'       : 'IMAX',
+  	'releaseYear'  : 2017,
+  	'releaseMonth' : 1,
+  	'releaseDay'   : 20
+  },{
+    'id'           : '4',
+  	'title'        : 'Resident Evil: Capitulo Final',
+  	'format'       : 'IMAX',
+  	'releaseYear'  : 2017,
+  	'releaseMonth' : 1,
+  	'releaseDay'   : 27
+  }, {
+  	'id'           : '1',
+  	'title'        : 'Assasins Creed',
+  	'format'       : 'IMAX',
+  	'releaseYear'  : 2017,
+  	'releaseMonth' : 1,
+  	'releaseDay'   : 6
+  }]
 
   let testRepo = {
-    getAllMovies () {
+    getAllMovies() {
       return Promise.resolve(testMovies)
     },
-    getMoviePremiers () {
+    getMoviePremiers() {
       return Promise.resolve(testMovies.filter(movie => movie.releaseYear === 2017))
     },
-    getMovieById (id) {
+    getMovieById(id) {
       return Promise.resolve(testMovies.find(movie => movie.id === id))
     }
   }
 
   beforeEach(() => {
     return server.start({
-      port: 3000,
-      repo: testRepo
+      port : 3000,
+      repo : testRepo
     }).then(serv => {
       app = serv
     })
@@ -61,21 +58,12 @@ describe('Movies API', () => {
       .get('/movies')
       .expect((res) => {
         res.body.should.containEql({
-        	"id" : "1",
-        	"title" : "Assasins Creed",
-        	"format" : "IMAX",
-        	"releaseYear" : 2017,
-        	"releaseMonth" : 1,
-        	"releaseDay" : 6
-        })
-
-        res.body.should.containEql({
-        	"id" : "4",
-        	"title" : "Resident Evil: Capitulo Final",
-        	"format" : "IMAX",
-        	"releaseYear" : 2017,
-        	"releaseMonth" : 1,
-        	"releaseDay" : 27
+          'id'           : '1',
+          'title'        : 'Assasins Creed',
+          'format'       : 'IMAX',
+          'releaseYear'  : 2017,
+          'releaseMonth' : 1,
+          'releaseDay'   : 6
         })
       })
       .expect(200, done)
@@ -86,12 +74,12 @@ describe('Movies API', () => {
     .get('/movies/premiers')
     .expect((res) => {
       res.body.should.containEql({
-        "id" : "1",
-        "title" : "Assasins Creed",
-        "format" : "IMAX",
-        "releaseYear" : 2017,
-        "releaseMonth" : 1,
-        "releaseDay" : 6
+        'id'           : '1',
+        'title'        : 'Assasins Creed',
+        'format'       : 'IMAX',
+        'releaseYear'  : 2017,
+        'releaseMonth' : 1,
+        'releaseDay'   : 6
       })
     })
     .expect(200, done)
@@ -102,15 +90,14 @@ describe('Movies API', () => {
       .get('/movies/1')
       .expect((res) => {
         res.body.should.containEql({
-          "id" : "1",
-          "title" : "Assasins Creed",
-          "format" : "IMAX",
-          "releaseYear" : 2017,
-          "releaseMonth" : 1,
-          "releaseDay" : 6
+          'id'           : '1',
+          'title'        : 'Assasins Creed',
+          'format'       : 'IMAX',
+          'releaseYear'  : 2017,
+          'releaseMonth' : 1,
+          'releaseDay'   : 6
         })
       })
       .expect(200, done)
   })
-
 })

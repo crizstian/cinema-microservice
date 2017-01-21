@@ -1,12 +1,10 @@
 const should = require('should')
-const test = require('assert')
 const {EventEmitter} = require('events')
 const repository = require('./repository')
 const mongo = require('../config/mongo')
 const {dbSettings} = require('../config/config')
 
 describe('Repository', () => {
-
   it('should connect with a promise', () => {
     repository.connect({}).should.be.a.Promise()
   })
@@ -68,5 +66,4 @@ describe('Repository', () => {
 
     mediator.emit('boot.ready')
   })
-
 })

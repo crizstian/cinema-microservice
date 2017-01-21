@@ -1,22 +1,22 @@
 'use strict'
-const moviesMock = require('../mock/movies')
 
 const repository = (db) => {
-
   const collection = db.collection('movies')
 
   const getAllMovies = () => {
     return new Promise((resolve, reject) => {
       const movies = []
       const cursor = collection.find({}, {title: 1, id: 1})
-      cursor.forEach((movie) => {
+      const addMovie = (movie) => {
         movies.push(movie)
-      }, (err) => {
+      }
+      const sendMovies = (err) => {
         if (err) {
           reject(new Error('An error occured fetching all movies, err:' + err))
         }
-        resolve(movies)
-      })
+        resolve(movies.slice())
+      }
+      cursor.forEach(addMovie, sendMovies)
     })
   }
 
@@ -38,26 +38,29 @@ const repository = (db) => {
         }
       }
       const cursor = collection.find(query)
-      cursor.forEach((movie) => {
+      const addMovie = (movie) => {
         movies.push(movie)
-      }, (err) => {
+      }
+      const sendMovies = (err) => {
         if (err) {
-          reject(new Error('An error occured retrieveing movie premiers, err: ' + err))
+          reject(new Error('An error occured fetching all movies, err:' + err))
         }
         resolve(movies)
-      })
+      }
+      cursor.forEach(addMovie, sendMovies)
     })
   }
 
   const getMovieById = (id) => {
     return new Promise((resolve, reject) => {
       const projection = { _id: 0, id: 1, title: 1, format: 1 }
-      collection.findOne({id: id}, projection, (err, movie) => {
+      const sendMovie = (err, movie) => {
         if (err) {
-          reject(new Error(`An error occured fetching movie with id: ${id}, err: ${err}`))
+          reject(new Error(`An error occured fetching a movie with id: ${id}, err: ${err}`))
         }
         resolve(movie)
-      })
+      }
+      collection.findOne({id: id}, projection, sendMovie)
     })
   }
 
