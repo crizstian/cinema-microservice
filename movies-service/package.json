@@ -2,11 +2,17 @@
   "name": "movies-service",
   "version": "1.0.0",
   "description": "A movie service, microservice example with nodejs",
+  "author": "Cristian Ramirez Rosas <cristiano.rosetti@gmail.com>",
+  "license": "ISC",
   "main": "index.js",
+  "standard": {
+    "env": ["mocha"],
+    "ignore": ["mock"]
+  },
   "scripts": {
     "test": "mocha -R spec **/*.spec.js",
     "start": "node index.js",
-    "lint": "eslint **/*.js",
+    "standard": "standard --verbose | snazzy",
     "node-debug": "DEBUG=express* node index.js",
     "chrome-debug": "node --debug-brk --inspect index.js",
     "coverage": "istanbul cover _mocha $(find ./ -name \"*.spec.js\" -not -path \"./node_modules/*\") "
@@ -17,12 +23,12 @@
     "docker",
     "microservice"
   ],
-  "author": "Cristian Ramirez Rosas <cristiano.rosetti@gmail.com>",
-  "license": "ISC",
   "devDependencies": {
     "eslint": "^3.13.1",
     "mocha": "^3.2.0",
     "should": "^11.1.2",
+    "snazzy": "^6.0.0",
+    "standard": "^8.6.0",
     "supertest": "^2.0.1"
   },
   "dependencies": {

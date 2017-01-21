@@ -7,12 +7,12 @@ const getMongoURL = (options) => {
   return `${url.substr(0, url.length - 1)}/${options.db}`
 }
 
-const dbParameters = () => ({
+const dbParameters = () => ({
   w: 'majority',
   wtimeout: 10000,
   j: true,
   readPreference: 'ReadPreference.SECONDARY_PREFERRED',
-  native_parser:false
+  native_parser: false
 })
 
 const serverParameters = () => ({
@@ -59,4 +59,4 @@ const connect = (options, mediator) => {
   })
 }
 
-module.exports.connect = connect
+module.exports = Object.assign({}, {connect})

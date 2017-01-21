@@ -2,8 +2,7 @@
 const {EventEmitter} = require('events')
 const server = require('./server/server')
 const repository = require('./repository/repository')
-const config = require('./config/config')
-const mongo = require('./config/mongo')
+const config = require('./config/')
 const mediator = new EventEmitter()
 
 console.log('--- Movies Service ---')
@@ -18,10 +17,11 @@ process.on('uncaughtRejection', (err, promise) => {
 })
 
 mediator.on('db.ready', (db) => {
+  let rep
   repository.connect(db)
     .then(repo => {
       console.log('Connected. Starting Server')
-
+      rep = repo
       return server.start({
         port: config.serverSettings.port,
         repo
@@ -29,8 +29,8 @@ mediator.on('db.ready', (db) => {
     })
     .then(app => {
       console.log(`Server started succesfully, running on port: ${config.serverSettings.port}.`)
-      app.on('close', () =>{
-        repo.disconnect()
+      app.on('close', () => {
+        rep.disconnect()
       })
     })
 })
@@ -39,6 +39,6 @@ mediator.on('db.error', (err) => {
   console.error(err)
 })
 
-mongo.connect(config.dbSettings, mediator)
+config.db.connect(config.dbSettings, mediator)
 
 mediator.emit('boot.ready')

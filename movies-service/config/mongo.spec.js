@@ -3,7 +3,6 @@ const test = require('assert')
 const mongo = require('./mongo')
 const {dbSettings} = require('./config')
 
-
 describe('Mongo Connection', () => {
   it('should emit db Object with an EventEmitter', (done) => {
     const mediator = new EventEmitter()

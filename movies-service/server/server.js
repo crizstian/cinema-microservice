@@ -5,16 +5,16 @@ const helmet = require('helmet')
 const start = (options) => {
   return new Promise((resolve, reject) => {
     if (!options.repo) {
-      throw new Error('The server must be started with a connected repository')
+      reject(new Error('The server must be started with a connected repository'))
     }
     if (!options.port) {
-      throw new Error('The server must be started with an available port')
+      reject(new Error('The server must be started with an available port'))
     }
     const app = express()
     app.use(morgan('dev'))
     app.use(helmet())
     app.use((err, req, res, next) => {
-      throw new Error('Something went wrong!, err:' + err)
+      reject(new Error('Something went wrong!, err:' + err))
       res.status(500).send('Something went wrong!')
     })
 
@@ -24,4 +24,4 @@ const start = (options) => {
   })
 }
 
-module.exports.start = start
+module.exports = Object.assign({}, {start})

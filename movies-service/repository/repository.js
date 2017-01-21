@@ -3,7 +3,7 @@
 const repository = (db) => {
   const collection = db.collection('movies')
 
-  const getAllMovies = () => {
+  const getAllMovies = () => {
     return new Promise((resolve, reject) => {
       const movies = []
       const cursor = collection.find({}, {title: 1, id: 1})
@@ -76,12 +76,13 @@ const repository = (db) => {
   })
 }
 
-module.exports.connect = (connection) => {
+const connect = (connection) => {
   return new Promise((resolve, reject) => {
     if (!connection) {
       reject(new Error('connection db not supplied!'))
     }
-
     resolve(repository(connection))
   })
 }
+
+module.exports = Object.assign({}, {connect})
