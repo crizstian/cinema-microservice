@@ -1,4 +1,4 @@
-const should = require('should')
+/* eslint-env mocha */
 const server = require('./server')
 
 describe('Server', () => {

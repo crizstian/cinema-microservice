@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const should = require('should')
 const {EventEmitter} = require('events')
 const repository = require('./repository')

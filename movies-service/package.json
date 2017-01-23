@@ -12,7 +12,7 @@
   "scripts": {
     "test": "mocha -R spec **/*.spec.js",
     "start": "node index.js",
-    "standard": "standard --verbose | snazzy",
+    "lint": "standard --verbose | snazzy",
     "node-debug": "DEBUG=express* node index.js",
     "chrome-debug": "node --debug-brk --inspect index.js",
     "coverage": "istanbul cover _mocha $(find ./ -name \"*.spec.js\" -not -path \"./node_modules/*\") "

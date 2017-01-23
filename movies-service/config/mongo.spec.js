@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const {EventEmitter} = require('events')
 const test = require('assert')
 const mongo = require('./mongo')
