@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const helmet = require('helmet')
+const spdy = require('spdy')
 
 const start = (options) => {
   return new Promise((resolve, reject) => {
@@ -10,6 +11,7 @@ const start = (options) => {
     if (!options.port) {
       reject(new Error('The server must be started with an available port'))
     }
+
     const app = express()
     app.use(morgan('dev'))
     app.use(helmet())
@@ -20,7 +22,8 @@ const start = (options) => {
 
     require('../api/movies')(app, options)
 
-    const server = app.listen(options.port, () => resolve(server))
+    const server = spdy.createServer(options.ssl, app)
+      .listen(options.port, () => resolve(server))
   })
 }
 

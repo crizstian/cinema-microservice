@@ -24,6 +24,7 @@ mediator.on('db.ready', (db) => {
       rep = repo
       return server.start({
         port: config.serverSettings.port,
+        ssl: config.serverSettings.ssl,
         repo
       })
     })
