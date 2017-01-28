@@ -1,0 +1,19 @@
+[{
+    "_id": {
+        "$oid": "588ab9d92d029a6d15d0b5b7"
+    },
+    "name": "Mexico",
+    "states": ["588aba4d2d029a6d15d0b5ba", "588ab9d92d029a6d15d0b5b7"]
+}, {
+    "_id": {
+        "$oid": "588ab9d92d029a6d15d0b5b8"
+    },
+    "name": "Colombia",
+    "states": ["588ab9d92d029a6d15d0b5b8", "588ab9d92d029a6d15d0b5b8"]
+}, {
+    "_id": {
+        "$oid": "588ab9d92d029a6d15d0b5b9"
+    },
+    "name": "Chile",
+    "states": ["588ab9d92d029a6d15d0b5b9"]
+}]

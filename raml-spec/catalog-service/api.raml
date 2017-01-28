@@ -1,0 +1,43 @@
+#%RAML 1.0
+title: Cinema Catalog Service
+version: v1
+baseUri: /
+uses:
+  object: types.raml
+  stack: ../movies-service/api.raml
+
+types:
+  Countries: object.Country []
+  States: object.State []
+  Cities: object.City []
+  Cinemas: object.Cinema []
+  Movies: stack.MoviePremieres
+  Schedules: object.Schedule []
+  
+
+resourceTypes:
+  GET:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: <<item>>
+
+/catalog:
+  type:  { GET: {item : Countries } }
+
+  /{state}:
+    type:  { GET: {item : States } }
+
+    /{city}:
+      type:  { GET: {item : Cities } }
+
+      /cinemas:
+        type:  { GET: {item : Cinemas } }
+
+        /cinemas/{cinema_id}:
+          type:  { GET: {item : Movies } }
+
+          /cinemas/{cinema_id}/{movie_id}:
+            type:  { GET: {item : Schedules } }
