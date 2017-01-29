@@ -13,3 +13,4 @@ We’ll use a simple NodeJS service with a MongoDB for our backend.
 ### Services
 
 - [Movies Services example](./movies-service)
+- [Cinema Catalog Services example](./cinema-catalog-service)
