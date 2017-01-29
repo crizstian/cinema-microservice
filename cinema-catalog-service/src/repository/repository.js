@@ -1,14 +1,14 @@
 'use strict'
-const ObjectID = require('mongodb').ObjectID
-const http = require('supertest')
-const {uris} = require('../config')
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-const repository = (db) => {
+const repository = (connection) => {
+  const {db, ObjectID} = connection
+
   const getCinemasByCity = (cityId) => {
     return new Promise((resolve, reject) => {
       const cinemas = []
-      const cursor = db.collection('cinemas').find({city_id: cityId}, {_id: 1, name: 1})
+      const query = {city_id: cityId}
+      const projection = {_id: 1, name: 1}
+      const cursor = db.collection('cinemas').find(query, projection)
       const addCinema = (cinema) => {
         cinemas.push(cinema)
       }
@@ -22,66 +22,55 @@ const repository = (db) => {
     })
   }
 
-  const getCinemaById = (cityId, cinemaId) => {
+  const getCinemaById = (cinemaId) => {
     return new Promise((resolve, reject) => {
-      const query = {_id: new ObjectID(cinemaId), city_id: cityId}
-      const projection = {title: 1, id: 1}
-      const sendCinema = (cinema, premieres) => {
-        // check for the cinema premieres
-      }
+      const query = {_id: new ObjectID(cinemaId)}
+      const projection = {_id: 1, name: 1, cinemaPremieres: 1}
       const response = (err, cinema) => {
         if (err) {
           reject(new Error('An error occuered retrieving a cinema, err: ' + err))
         }
-        getCinemaPremieres()
-          .then(movies => sendCinema(cinema, movies))
-          .catch(err => reject(err))
+        resolve(cinema)
       }
       db.collection('cinemas').findOne(query, projection, response)
     })
   }
 
-  const getCinemaPremieres = () => {
+  const getCinemaScheduleByMovie = (options) => {
     return new Promise((resolve, reject) => {
-      http(uris.movieServiceUrl)
-        .get('/movies/premieres')
-        .end((err, res) => {
-          if (err) {
-            reject(new Error('An error occured fetching movie premieres: err' + err))
+      const match = { $match: {
+        'city_id': options.cityId,
+        'cinemaRooms.schedules.movie_id': options.movieId
+      }}
+      const project = { $project: {
+        'name': 1,
+        'cinemaRooms.schedules.time': 1,
+        'cinemaRooms.name': 1,
+        'cinemaRooms.format': 1
+      }}
+      const unwind = [{ $unwind: '$cinemaRooms' }, { $unwind: '$cinemaRooms.schedules' }]
+      const group = [{ $group: {
+        _id: {
+          name: '$name',
+          room: '$cinemaRooms.name'
+        },
+        schedules: { $addToSet: '$cinemaRooms.schedules.time' }
+      }}, { $group: {
+        _id: '$_id.name',
+        schedules: {
+          $addToSet: {
+            room: '$_id.room',
+            schedules: '$schedules'
           }
-          resolve(res.body)
-        })
-    })
-  }
-
-  const getCinemaScheduleByMovie = () => {
-    return new Promise((resolve, reject) => {
-      const movies = []
-      const currentDay = new Date()
-      const query = {
-        releaseYear: {
-          $gt: currentDay.getFullYear() - 1,
-          $lte: currentDay.getFullYear()
-        },
-        releaseMonth: {
-          $gte: currentDay.getMonth() + 1,
-          $lte: currentDay.getMonth() + 2
-        },
-        releaseDay: {
-          $lte: currentDay.getDate()
         }
-      }
-      const cursor = collection.find(query)
-      const addMovie = (movie) => {
-        movies.push(movie)
-      }
-      const sendMovies = (err) => {
+      }}]
+      const sendSchedules = (err, result) => {
         if (err) {
-          reject(new Error('An error occured fetching all movies, err:' + err))
+          reject('An error has occured fetching schedules by movie, err: ' + err)
         }
-        resolve(movies)
+        resolve(result)
       }
-      cursor.forEach(addMovie, sendMovies)
+      db.collection('cinemas').aggregate([match, project, ...unwind, ...group], sendSchedules)
     })
   }
 

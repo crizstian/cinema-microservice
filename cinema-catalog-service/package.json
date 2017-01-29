@@ -40,6 +40,6 @@
     "http-status": "^0.2.5",
     "mongodb": "^2.1.18",
     "morgan": "^1.7.0",
-    "spdy": "https://registry.npmjs.org/spdy/-/spdy-3.4.4.tgz"
+    "spdy": "^3.4.4"
   }
 }

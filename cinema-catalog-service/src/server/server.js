@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const spdy = require('spdy')
+const api = require('../api/cinema-catalog')
 
 const start = (options) => {
   return new Promise((resolve, reject) => {
@@ -20,10 +21,13 @@ const start = (options) => {
       res.status(500).send('Something went wrong!')
     })
 
-    require('../api/movies')(app, options)
-
-    const server = spdy.createServer(options.ssl, app)
-      .listen(options.port, () => resolve(server))
+    api(app, options)
+    if (process.env.NODE === 'test') {
+      const server = app.listen(options.port, () => resolve(server))
+    } else {
+      const server = spdy.createServer(options.ssl, app)
+        .listen(options.port, () => resolve(server))
+    }
   })
 }
 
