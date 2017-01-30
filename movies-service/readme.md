@@ -4,6 +4,8 @@
 
 Example of the **movie service** microservice and API.
 
+![](https://cdn-images-1.medium.com/max/1600/1*Zf2QVw1EHUNebJ1hNcT51Q.png)
+
 ### Stack
 - NodeJS V7
 - MongoDB 3.4.1

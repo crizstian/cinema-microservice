@@ -4,6 +4,8 @@
 
 Example of the **cinema catalog service** microservice and API.
 
+![](https://cdn-images-1.medium.com/max/1600/1*oj7mSGXTnnMBDVYeqE3SRw.png)
+
 To import the database used for this repo and article run the following command on your MongoDB env:
 First we need to do a `$ docker cp file mongoNodeContainer:/tmp`
 
