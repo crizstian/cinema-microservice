@@ -1,0 +1,36 @@
+[{
+    "_id": {
+        "$oid": "588ababf2d029a6d15d0b5bf"
+    },
+    "name": "Morelia",
+    "state_id": "588aba4d2d029a6d15d0b5ba",
+    "cinemas": ["588ac3a02d029a6d15d0b5c4", "588ac3a02d029a6d15d0b5c5"]
+}, {
+    "_id": {
+        "$oid": "588ababf2d029a6d15d0b5c0"
+    },
+    "name": "Queretaro",
+    "state_id": "588aba4d2d029a6d15d0b5bb",
+    "cinemas": ["588ac7a12d029a6d15d0b5cb"]
+}, {
+    "_id": {
+        "$oid": "588ababf2d029a6d15d0b5c1"
+    },
+    "name": "Medellin",
+    "state_id": "588aba4d2d029a6d15d0b5bd",
+    "cinemas": ["588ac7332d029a6d15d0b5ca"]
+}, {
+    "_id": {
+        "$oid": "588ababf2d029a6d15d0b5c2"
+    },
+    "name": "Bogota",
+    "state_id": "588aba4d2d029a6d15d0b5bc",
+    "cinemas": ["588ac65f2d029a6d15d0b5c8", "588ac65f2d029a6d15d0b5c9"]
+}, {
+    "_id": {
+        "$oid": "588ababf2d029a6d15d0b5c3"
+    },
+    "name": "Santiago de Chile",
+    "state_id": "588aba4d2d029a6d15d0b5be",
+    "cinemas": ["588ac53c2d029a6d15d0b5c6", "588ac53c2d029a6d15d0b5c7"]
+}]
