@@ -35,6 +35,9 @@
     "supertest": "^2.0.1"
   },
   "dependencies": {
+    "awilix": "^2.2.2",
+    "body-parser": "^1.16.0",
+    "cors": "^2.8.1",
     "express": "^4.14.0",
     "helmet": "^3.4.0",
     "http-status": "^0.2.5",

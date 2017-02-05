@@ -1,91 +1,57 @@
 /* eslint-env mocha */
+const { createContainer, asValue } = require('awilix')
+const should = require('should')
 const request = require('supertest')
 const server = require('../server/server')
+const models = require('../models')
+const services = require('../services')
 process.env.NODE = 'test'
 
-describe('Movies API', () => {
+describe('Booking API', () => {
   let app = null
-  const testCinemasCity = [{
-    '_id': '588ac3a02d029a6d15d0b5c4',
-    'name': 'Plaza Morelia'
-  }, {
-    '_id': '588ac3a02d029a6d15d0b5c5',
-    'name': 'Las Americas'
-  }]
 
-  const testCinemaId = {
-    '_id': '588ac3a02d029a6d15d0b5c4',
-    'name': 'Plaza Morelia',
-    'cinemaPremieres': [
-      {
-        'id': '1',
-        'title': 'Assasins Creed',
-        'runtime': 115,
-        'plot': 'Lorem ipsum dolor sit amet',
-        'poster': 'link to poster...'
-      },
-      {
-        'id': '2',
-        'title': 'Aliados',
-        'runtime': 124,
-        'plot': 'Lorem ipsum dolor sit amet',
-        'poster': 'link to poster...'
-      },
-      {
-        'id': '3',
-        'title': 'xXx: Reactivado',
-        'runtime': 107,
-        'plot': 'Lorem ipsum dolor sit amet',
-        'poster': 'link to poster...'
-      }
-    ]
+  const serverSettings = {
+    port: 3000
   }
 
-  const testSchedulesMovie = [{
-    '_id': 'Plaza Morelia',
-    'schedules': [{
-      'room': 2.0,
-      'schedules': [ '10:15' ]
-    }, {
-      'room': 1.0,
-      'schedules': [ '6:55', '4:35', '10:15' ]
-    }, {
-      'room': 3.0,
-      'schedules': [ '10:15' ]
-    }]
-  }, {
-    '_id': 'Las Americas',
-    'schedules': [ {
-      'room': 2.0,
-      'schedules': [ '3:25', '10:15' ]
-    }, {
-      'room': 1.0,
-      'schedules': [ '12:15', '10:15' ]
-    }]
-  }]
-
   let testRepo = {
-    getCinemasByCity (location) {
-      console.log(location)
-      return Promise.resolve(testCinemasCity)
+    makeBooking (user, booking) {
+      return Promise.resolve('booking made successfully')
     },
-    getCinemaById (cinemaId) {
-      console.log(cinemaId)
-      return Promise.resolve(testCinemaId)
+    generateTicket (paid, booking) {
+      const testTicket = {
+        cinema: booking.cinema,
+        schedule: booking.schedule.toString(),
+        movie: booking.movie,
+        seats: booking.seats,
+        cinemaRoom: booking.cinemaRoom,
+        orderId: 123
+      }
+      return Promise.resolve(testTicket)
     },
-    getCinemaScheduleByMovie (cinemaId, movieId) {
-      console.log(cinemaId, movieId)
-      return Promise.resolve(testSchedulesMovie)
+    getOrderById (orderId) {
+      return Promise.resolve('orderId: ' + orderId)
     }
   }
 
   beforeEach(() => {
-    return server.start({
-      port: 3000,
-      repo: testRepo
-    }).then(serv => {
-      app = serv
+    const container = createContainer()
+
+    container.register({
+      validate: asValue(models.validate),
+      booking: asValue(models.booking),
+      user: asValue(models.booking),
+      ticket: asValue(models.booking),
+      serverSettings: asValue(serverSettings),
+      paymentService: asValue(services.paymentService),
+      notificationService: asValue(services.notificationService),
+      repo: asValue(testRepo)
     })
+
+    return server.start(container)
+      .then(serv => {
+        app = serv
+      })
   })
 
   afterEach(() => {
@@ -93,34 +59,45 @@ describe('Movies API', () => {
     app = null
   })
 
-  it('can return cinemas by location', (done) => {
-    const location = {
-      city: '588ababf2d029a6d15d0b5bf'
+  it('can make a booking and return the ticket(s)', (done) => {
+    const now = new Date()
+    now.setDate(now.getDate() + 1)
+
+    const user = {
+      name: 'Cristian',
+      lastName: 'Ramirez',
+      email: 'cristiano@nupp.com',
+      creditCard: {
+        number: '1111222233334444',
+        cvc: '123',
+        exp_month: '07',
+        exp_year: '2017'
+      },
+      membership: '7777888899990000'
     }
-    request(app)
-      .get(`/cinemas?cityId=${location.city}`)
-      .expect((res) => {
-        res.body.should.containEql(testCinemasCity[0])
-        res.body.should.containEql(testCinemasCity[1])
-      })
-      .expect(200, done)
-  })
 
-  it('can get movie premiers by cinema', (done) => {
-    request(app)
-    .get('/cinemas/588ac3a02d029a6d15d0b5c4')
-    .expect((res) => {
-      res.body.should.containEql(testCinemaId)
-    })
-    .expect(200, done)
-  })
+    const booking = {
+      city: 'Morelia',
+      cinema: 'Plaza Morelia',
+      movie: 'Assasins Creed',
+      schedule: now.toString(),
+      cinemaRoom: 7,
+      seats: ['45'],
+      totalAmount: 71
+    }
 
-  it('can get schedules by cinema and movie', (done) => {
     request(app)
-      .get('/cinemas/588ababf2d029a6d15d0b5bf/1')
+      .post('/booking')
+      .send({user, booking})
       .expect((res) => {
-        res.body.should.containEql(testSchedulesMovie[0])
-        res.body.should.containEql(testSchedulesMovie[1])
+        res.body.should.containEql({
+          cinema: booking.cinema,
+          schedule: now.toString(),
+          movie: booking.movie,
+          seats: booking.seats,
+          cinemaRoom: booking.cinemaRoom,
+          orderId: 123
+        })
       })
       .expect(200, done)
   })

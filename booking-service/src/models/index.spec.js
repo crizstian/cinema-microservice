@@ -36,7 +36,12 @@ describe('Schemas Validation', () => {
       name: 'Cristian',
       lastName: 'Ramirez',
       email: 'cristiano@nupp.com',
-      creditCard: '1111222233334444',
+      creditCard: {
+        number: '1111222233334444',
+        cvc: '123',
+        exp_month: '07',
+        exp_year: '2017'
+      },
       membership: '7777888899990000'
     }
 

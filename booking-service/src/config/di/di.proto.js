@@ -1,3 +1,28 @@
+/*
+  const container = createContainer()
+
+  container.register({
+    transient(user),
+    transient(ticket),
+    transient(booking),
+    singleton(objectID),
+    singleton(notifications),
+    singleton(payments)
+  })
+
+  function ({ User, Booking }) {
+    make some stuff with the user
+    Promise.all([
+      user.validate(object),
+      booking.validate(object)
+    ])
+    .then([user, booking] => {
+
+    })
+  }
+
+*/
+
 const createContainer = () => {
   // DI store
   const registrations = {}

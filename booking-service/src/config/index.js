@@ -1,5 +1,9 @@
-const {ObjectID} = require('mongodb')
 const {dbSettings, serverSettings} = require('./config')
-const db = require('./mongo')
+const database = require('./db')
+const {initDI} = require('./di')
+const models = require('../models')
+const services = require('../services')
 
-module.exports = Object.assign({}, {dbSettings, serverSettings, db, ObjectID})
+const init = initDI.bind(null, {serverSettings, dbSettings, database, models, services})
+
+module.exports = Object.assign({}, {init})

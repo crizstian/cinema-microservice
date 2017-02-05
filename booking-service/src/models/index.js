@@ -23,4 +23,4 @@ const schemaValidator = (object, type) => {
   })
 }
 
-module.exports = Object.create({validate: schemaValidator})
+module.exports = Object.create({validate: schemaValidator, schemas})

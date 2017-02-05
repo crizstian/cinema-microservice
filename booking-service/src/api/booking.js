@@ -1,24 +1,54 @@
 'use strict'
 const status = require('http-status')
 
-module.exports = (app, options) => {
-  const {repo, schemaValidator} = options
-
+module.exports = ({repo}, app) => {
   app.post('/booking', (req, res, next) => {
+    const validate = req.container.cradle.validate
+    const paymentService = req.container.resolve('paymentService')
+    const notificationService = req.container.resolve('notificationService')
+
     Promise.all([
-      schemaValidator().validate(req.user, 'user'),
-      schemaValidator().validate(req.booking, 'booking')
+      validate(req.body.user, 'user'),
+      validate(req.body.booking, 'booking')
     ])
     .then(([user, booking]) => {
-      repo.makeStuff()
+      const payment = {
+        userName: user.name + ' ' + user.lastName,
+        currency: 'mxn',
+        number: user.creditCard.number,
+        cvc: user.creditCard.cvc,
+        exp_month: user.creditCard.exp_month,
+        exp_year: user.creditCard.exp_year,
+        amount: booking.amount,
+        description: `
+          Tickect(s) for movie ${booking.movie},
+          with seat(s) ${booking.seats.toString()}
+          at time ${booking.schedule}`
+      }
+
+      return Promise.all([
+        paymentService(payment),
+        Promise.resolve(user),
+        Promise.resolve(booking)
+      ])
+    })
+    .then(([paid, user, booking]) => {
+      return Promise.all([
+        repo.makeBooking(user, booking),
+        repo.generateTicket(paid, booking)
+      ])
+    })
+    .then(([booking, ticket]) => {
+      notificationService({booking, ticket})
+      res.status(status.OK).json(ticket)
     })
     .catch(next)
   })
 
   app.get('/booking/verify/:orderId', (req, res, next) => {
-    repo.verifyOrder(req.params.orderId)
-      .then(value => {
-        console.log(value)
+    repo.getOrderById(req.params.orderId)
+      .then(order => {
+        res.status(status.OK).json(order)
       })
       .catch(next)
   })

@@ -2,7 +2,7 @@
 const {EventEmitter} = require('events')
 const server = require('./server/server')
 const repository = require('./repository/repository')
-const config = require('./config/')
+const di = require('./config')
 const mediator = new EventEmitter()
 
 console.log('--- Booking Service ---')
@@ -16,30 +16,19 @@ process.on('uncaughtRejection', (err, promise) => {
   console.error('Unhandled Rejection', err)
 })
 
-mediator.on('db.ready', (db) => {
-  let rep
-  repository.connect({db, ObjectID: config.ObjectID})
+mediator.on('di.ready', (container) => {
+  repository.connect(container)
     .then(repo => {
-      console.log('Connected. Starting Server')
-      rep = repo
-      return server.start({
-        port: config.serverSettings.port,
-        ssl: config.serverSettings.ssl,
-        repo
-      })
+      container.registerFunction({repo})
+      return server.start(container)
     })
     .then(app => {
-      console.log(`Server started succesfully, running on port: ${config.serverSettings.port}.`)
       app.on('close', () => {
-        rep.disconnect()
+        container.resolve('repo').disconnect()
       })
     })
 })
 
-mediator.on('db.error', (err) => {
-  console.error(err)
-})
+di.init(mediator)
 
-config.db.connect(config.dbSettings, mediator)
-
-mediator.emit('boot.ready')
+mediator.emit('init')
