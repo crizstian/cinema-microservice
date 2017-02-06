@@ -2,8 +2,14 @@
 
 eval `docker-machine env manager1`
 
-docker volume rm $(docker volume ls -qf dangling=true)
+docker rm -f booking-service
 
-docker build -t catalog-service .
+docker rmi booking-service
 
-docker run --name catalog-service -p 3000:3000 --env-file env -d catalog-service
+docker image prune
+
+docker volume prune
+
+docker build -t booking-service .
+
+docker run --name booking-service -p 3001:3000 --env-file env -d booking-service

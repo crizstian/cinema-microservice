@@ -1,24 +1,46 @@
 'use strict'
-const repository = ({db, ObjectID} = {}) => {
-  const makeBooking = (cinema) => {
+const repository = (container) => {
+  const {database: db} = container.cradle
+
+  const makeBooking = (user, booking) => {
     return new Promise((resolve, reject) => {
-      db.collection('booking').insertOne(cinema, (err, result) => {
-        if (err) {
-          reject(new Error())
+      const payload = {
+        city: booking.city,
+        cinema: booking.cinema,
+        book: {
+          userType: (user.membership) ? 'loyal' : 'normal',
+          movie: {
+            title: booking.movie.title,
+            format: booking.movie.format,
+            schedule: booking.schedule
+          }
         }
-        resolve(result)
+      }
+
+      db.collection('booking').insertOne(payload, (err, booked) => {
+        if (err) {
+          reject(new Error('An error occuered registring a user booking, err:' + err))
+        }
+        resolve(booked)
       })
     })
   }
 
-  const generateTicket = () => {
+  const generateTicket = (paid, booking) => {
     return new Promise((resolve, reject) => {
-
+      const payload = Object.assign({}, {booking, orderId: paid._id})
+      db.collection('tickets').insertOne(payload, (err, ticket) => {
+        if (err) {
+          reject(new Error('an error occured registring a ticket, err:' + err))
+        }
+        resolve(payload)
+      })
     })
   }
 
   const getOrderById = (orderId) => {
     return new Promise((resolve, reject) => {
+      const ObjectID = container.resolve('ObjectID')
       const query = {_id: new ObjectID(orderId)}
       const response = (err, order) => {
         if (err) {
@@ -44,14 +66,10 @@ const repository = ({db, ObjectID} = {}) => {
 
 const connect = (container) => {
   return new Promise((resolve, reject) => {
-    const connection = {
-      db: container.resolve('database'),
-      ObjectID: container.resolve('ObjectID')
-    }
-    if (!connection.db) {
+    if (!container.resolve('database')) {
       reject(new Error('connection db not supplied!'))
     }
-    resolve(repository(connection))
+    resolve(repository(container))
   })
 }
 

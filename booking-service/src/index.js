@@ -19,10 +19,12 @@ process.on('uncaughtRejection', (err, promise) => {
 mediator.on('di.ready', (container) => {
   repository.connect(container)
     .then(repo => {
-      container.registerFunction({repo})
+      console.log('Connected. Starting Server')
+      container.registerValue({repo})
       return server.start(container)
     })
     .then(app => {
+      console.log(`Server started succesfully, running on port: ${container.cradle.serverSettings.port}.`)
       app.on('close', () => {
         container.resolve('repo').disconnect()
       })

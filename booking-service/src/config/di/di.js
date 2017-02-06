@@ -1,4 +1,4 @@
-const { createContainer, asValue, asFunction, asClass } = require('awilix')
+const { createContainer, asValue } = require('awilix')
 
 function initDI ({serverSettings, dbSettings, database, models, services}, mediator) {
   mediator.once('init', () => {
@@ -6,15 +6,15 @@ function initDI ({serverSettings, dbSettings, database, models, services}, media
       const container = createContainer()
 
       container.register({
-        database: asFunction(db).singleton(),
-        validate: asFunction(models.validate),
-        booking: asFunction(models.booking),
-        user: asFunction(models.booking),
-        ticket: asFunction(models.booking),
-        ObjectID: asClass(database.ObjectID),
+        database: asValue(db),
+        validate: asValue(models.validate),
+        booking: asValue(models.booking),
+        user: asValue(models.booking),
+        ticket: asValue(models.booking),
+        ObjectID: asValue(database.ObjectID),
         serverSettings: asValue(serverSettings),
-        paymentService: asFunction(services.paymentService),
-        notificationService: asFunction(services.notificationService)
+        paymentService: asValue(services.paymentService),
+        notificationService: asValue(services.notificationService)
       })
 
       mediator.emit('di.ready', container)

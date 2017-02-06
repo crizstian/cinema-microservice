@@ -1,4 +1,4 @@
-DB=cinemas
+DB=booking
 DB_USER=cristian
 DB_PASS=cristianPassword2017
 DB_REPLS=rs1

@@ -21,9 +21,6 @@ const start = (container) => {
     const app = express()
     app.use(morgan('dev'))
     app.use(bodyparser.json())
-    app.use(bodyparser.text({
-      type: 'text/plain'
-    }))
     app.use(cors())
     app.use(helmet())
     app.use((err, req, res, next) => {

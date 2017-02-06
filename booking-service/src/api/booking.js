@@ -38,8 +38,8 @@ module.exports = ({repo}, app) => {
         repo.generateTicket(paid, booking)
       ])
     })
-    .then(([booking, ticket]) => {
-      notificationService({booking, ticket})
+    .then(([booked, ticket]) => {
+      notificationService({booked, ticket})
       res.status(status.OK).json(ticket)
     })
     .catch(next)
