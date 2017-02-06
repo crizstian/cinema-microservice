@@ -10,7 +10,8 @@ We’ll use a simple NodeJS service with a MongoDB for our backend.
 - MongoDB 3.4.1
 - Docker for Mac 1.12.6
 
-### Services
+### Microservices
 
-- [Movies Services example](./movies-service)
-- [Cinema Catalog Services example](./cinema-catalog-service)
+- [Movies Service example](./movies-service)
+- [Cinema Catalog Service example](./cinema-catalog-service)
+- [Booking Service example](./cinema-catalog-service)
