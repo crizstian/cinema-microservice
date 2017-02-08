@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+eval `docker-machine env manager1`
+
+docker rm -f booking-service
+
+docker rmi booking-service
+
+docker image prune
+
+docker volume prune
+
+docker build -t booking-service .
+
+docker run --name booking-service -p 3001:3000 --env-file env -d booking-service
