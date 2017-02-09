@@ -35,11 +35,12 @@ module.exports = ({repo}, app) => {
     .then(([paid, user, booking]) => {
       return Promise.all([
         repo.makeBooking(user, booking),
-        repo.generateTicket(paid, booking)
+        repo.generateTicket(paid, booking),
+        Promise.resolve(user)
       ])
     })
-    .then(([booked, ticket]) => {
-      notificationService({booked, ticket})
+    .then(([booked, ticket, user]) => {
+      notificationService({ticket, user: {name: user.userName, email: user.email}})
       res.status(status.OK).json(ticket)
     })
     .catch(next)

@@ -6,14 +6,17 @@ const repository = (container) => {
     return new Promise((resolve, reject) => {
       const payload = {
         city: booking.city,
-        cinema: booking.cinema,
-        book: {
-          userType: (user.membership) ? 'loyal' : 'normal',
-          movie: {
-            title: booking.movie.title,
-            format: booking.movie.format,
-            schedule: booking.schedule
-          }
+        userType: (user.membership) ? 'loyal' : 'normal',
+        totalAmount: booking.totAlamount,
+        cinema: {
+          name: booking.cinema,
+          room: booking.cinemaRoom,
+          seats: booking.seats.toString()
+        },
+        movie: {
+          title: booking.movie.title,
+          format: booking.movie.format,
+          schedule: booking.schedule
         }
       }
 
@@ -21,14 +24,14 @@ const repository = (container) => {
         if (err) {
           reject(new Error('An error occuered registring a user booking, err:' + err))
         }
-        resolve(booked)
+        resolve(payload)
       })
     })
   }
 
   const generateTicket = (paid, booking) => {
     return new Promise((resolve, reject) => {
-      const payload = Object.assign({}, {booking, orderId: paid._id})
+      const payload = Object.assign({}, {booking, orderId: paid.charge.id, description: paid.description})
       db.collection('tickets').insertOne(payload, (err, ticket) => {
         if (err) {
           reject(new Error('an error occured registring a ticket, err:' + err))
