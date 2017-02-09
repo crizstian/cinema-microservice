@@ -5,24 +5,32 @@ const {validate} = require('./')
 console.log(Object.getPrototypeOf(validate))
 
 describe('Schemas Validation', () => {
-  it('can validate a user object', (done) => {
-    const testPayment = {
-      userName: 'Cristian Ramirez',
-      currency: 'mxn',
-      number: '4242424242424242',
-      cvc: '123',
-      exp_month: '12',
-      exp_year: '2017',
-      amount: 71,
-      description: `
-        Tickect(s) for movie "Assasins Creed",
-        with seat(s) 47, 48
-        at time 8 / feb / 17`
+  it('can validate a notification object', (done) => {
+    const notificationSchema = {
+      city: 'Morelia',
+      userType: 'loyal',
+      totalAmount: 71,
+      cinema: {
+        name: 'Plaza Morelia',
+        room: '1',
+        seats: '53, 54'
+      },
+      movie: {
+        title: 'Assasins Creed',
+        format: 'IMAX',
+        schedule: new Date()
+      },
+      orderId: '1aa90cx',
+      description: 'some description',
+      user: {
+        name: 'Cristian Ramirez',
+        email: 'cristiano.rosetti@gmail.com'
+      }
     }
 
-    validate(testPayment, 'payment')
+    validate(notificationSchema, 'notification')
       .then(value => {
-        console.log('validated')
+        test.ok(value)
         console.log(value)
         done()
       })

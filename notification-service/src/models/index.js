@@ -1,7 +1,7 @@
 const joi = require('joi')
-const payment = require('./payment.model')(joi)
+const notification = require('./notification.model')(joi)
 
-const schemas = Object.create({payment})
+const schemas = Object.create({notification})
 
 const schemaValidator = (object, type) => {
   return new Promise((resolve, reject) => {

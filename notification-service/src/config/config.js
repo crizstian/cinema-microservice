@@ -9,4 +9,4 @@ const smtpSettings = {
   pass: 'Cris123@#'
 }
 
-module.exports = Object.assign({}, { serverSettings })
+module.exports = Object.assign({}, { serverSettings, smtpSettings })

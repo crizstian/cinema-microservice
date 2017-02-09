@@ -1,10 +1,12 @@
 /* eslint-env mocha */
 const { createContainer, asValue } = require('awilix')
+const nodemailer = require('nodemailer')
+const smtpTransport = require('nodemailer-smtp-transport')
 const should = require('should')
 const request = require('supertest')
 const server = require('../server/server')
 const models = require('../models')
-const services = require('../services')
+const {smtpSettings} = require('../config/config')
 process.env.NODE = 'test'
 
 describe('Booking API', () => {
@@ -14,40 +16,68 @@ describe('Booking API', () => {
     port: 3000
   }
 
-  let testRepo = {
-    makeBooking (user, booking) {
-      return Promise.resolve('booking made successfully')
-    },
-    generateTicket (paid, booking) {
-      const testTicket = {
-        cinema: booking.cinema,
-        schedule: booking.schedule.toString(),
-        movie: booking.movie,
-        seats: booking.seats,
-        cinemaRoom: booking.cinemaRoom,
-        orderId: 123
-      }
-      return Promise.resolve(testTicket)
-    },
-    getOrderById (orderId) {
-      return Promise.resolve('orderId: ' + orderId)
+  const container = createContainer()
+
+  container.register({
+    validate: asValue(models.validate),
+    serverSettings: asValue(serverSettings),
+    smtpSettings: asValue(smtpSettings),
+    nodemailer: asValue(nodemailer),
+    smtpTransport: asValue(smtpTransport)
+  })
+
+  let _testRepo = {
+    sendEmail ({container}, payload) {
+      return new Promise((resolve, reject) => {
+        const {smtpSettings, smtpTransport, nodemailer} = container.cradle
+
+        const transporter = nodemailer.createTransport(
+          smtpTransport({
+            service: smtpSettings.service,
+            auth: {
+              user: smtpSettings.user,
+              pass: smtpSettings.pass
+            }
+          }))
+
+        const mailOptions = {
+          from: '"Do Not Reply, Cinemas Company 👥" <no-replay@cinemas.com>',
+          to: `${payload.user.email}`,
+          subject: `Tickects for movie ${payload.movie.title}`,
+          html: `
+              <h1>Tickest for ${payload.movie.title}</h1>
+
+              <h3>Cinema: <span>${payload.cinema.name}</span> </h3>
+              <h4>Room: <span>${payload.cinema.room}</span> </h4>
+              <h4>Seat(s): <span>${payload.cinema.seats}</span> </h4>
+
+              <h4>description: <span>${payload.description}</span> </h4>
+
+              <h4>Total: <span>${payload.totalAmount}</span> </h4>
+              <h4>number of order: <span>${payload.orderId}</span> </h4>
+
+              <h3>Cinemas Microserivce 2017, Enjoy your movie 🍿🎥!</h3>
+            `
+        }
+
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) {
+            reject(new Error('An error occured sending an email, err:' + err))
+          }
+          transporter.close()
+          resolve(info)
+        })
+      })
     }
   }
 
+  const testRepo = {}
+
+  testRepo.sendEmail = _testRepo.sendEmail.bind(null, {container})
+
+  container.registerValue({repo: testRepo})
+
   beforeEach(() => {
-    const container = createContainer()
-
-    container.register({
-      validate: asValue(models.validate),
-      booking: asValue(models.booking),
-      user: asValue(models.booking),
-      ticket: asValue(models.booking),
-      serverSettings: asValue(serverSettings),
-      paymentService: asValue(services.paymentService),
-      notificationService: asValue(services.notificationService),
-      repo: asValue(testRepo)
-    })
-
     return server.start(container)
       .then(serv => {
         app = serv
@@ -60,44 +90,33 @@ describe('Booking API', () => {
   })
 
   it('can make a booking and return the ticket(s)', (done) => {
-    const now = new Date()
-    now.setDate(now.getDate() + 1)
-
-    const user = {
-      name: 'Cristian',
-      lastName: 'Ramirez',
-      email: 'cristiano@nupp.com',
-      creditCard: {
-        number: '1111222233334444',
-        cvc: '123',
-        exp_month: '07',
-        exp_year: '2017'
-      },
-      membership: '7777888899990000'
-    }
-
-    const booking = {
+    const payload = {
       city: 'Morelia',
-      cinema: 'Plaza Morelia',
-      movie: 'Assasins Creed',
-      schedule: now.toString(),
-      cinemaRoom: 7,
-      seats: ['45'],
-      totalAmount: 71
+      userType: 'loyal',
+      totalAmount: 71,
+      cinema: {
+        name: 'Plaza Morelia',
+        room: '1',
+        seats: '53, 54'
+      },
+      movie: {
+        title: 'Assasins Creed',
+        format: 'IMAX',
+        schedule: new Date()
+      },
+      orderId: '1aa90cx',
+      description: 'some description',
+      user: {
+        name: 'Cristian Ramirez',
+        email: 'cristiano.rosetti@gmail.com'
+      }
     }
 
     request(app)
-      .post('/booking')
-      .send({user, booking})
+      .post('/sendEmail')
+      .send({payload})
       .expect((res) => {
-        res.body.should.containEql({
-          cinema: booking.cinema,
-          schedule: now.toString(),
-          movie: booking.movie,
-          seats: booking.seats,
-          cinemaRoom: booking.cinemaRoom,
-          orderId: 123
-        })
+        should.ok(res.body)
       })
       .expect(200, done)
   })

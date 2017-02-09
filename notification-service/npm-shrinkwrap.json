@@ -300,6 +300,16 @@
       "from": "http-status@latest",
       "resolved": "https://registry.npmjs.org/http-status/-/http-status-0.2.5.tgz"
     },
+    "httpntlm": {
+      "version": "1.6.1",
+      "from": "httpntlm@1.6.1",
+      "resolved": "https://registry.npmjs.org/httpntlm/-/httpntlm-1.6.1.tgz"
+    },
+    "httpreq": {
+      "version": "0.4.22",
+      "from": "httpreq@>=0.4.22",
+      "resolved": "https://registry.npmjs.org/httpreq/-/httpreq-0.4.22.tgz"
+    },
     "iconv-lite": {
       "version": "0.4.15",
       "from": "iconv-lite@0.4.15",
@@ -481,6 +491,31 @@
       "from": "nocache@2.0.0",
       "resolved": "https://registry.npmjs.org/nocache/-/nocache-2.0.0.tgz"
     },
+    "nodemailer": {
+      "version": "3.0.2",
+      "from": "nodemailer@latest",
+      "resolved": "https://registry.npmjs.org/nodemailer/-/nodemailer-3.0.2.tgz"
+    },
+    "nodemailer-fetch": {
+      "version": "1.6.0",
+      "from": "nodemailer-fetch@1.6.0",
+      "resolved": "https://registry.npmjs.org/nodemailer-fetch/-/nodemailer-fetch-1.6.0.tgz"
+    },
+    "nodemailer-shared": {
+      "version": "1.1.0",
+      "from": "nodemailer-shared@1.1.0",
+      "resolved": "https://registry.npmjs.org/nodemailer-shared/-/nodemailer-shared-1.1.0.tgz"
+    },
+    "nodemailer-smtp-transport": {
+      "version": "2.7.2",
+      "from": "nodemailer-smtp-transport@latest",
+      "resolved": "https://registry.npmjs.org/nodemailer-smtp-transport/-/nodemailer-smtp-transport-2.7.2.tgz"
+    },
+    "nodemailer-wellknown": {
+      "version": "0.1.10",
+      "from": "nodemailer-wellknown@0.1.10",
+      "resolved": "https://registry.npmjs.org/nodemailer-wellknown/-/nodemailer-wellknown-0.1.10.tgz"
+    },
     "obuf": {
       "version": "1.1.1",
       "from": "obuf@>=1.1.0 <2.0.0",
@@ -600,6 +635,11 @@
       "from": "setprototypeof@1.0.2",
       "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.0.2.tgz"
     },
+    "smtp-connection": {
+      "version": "2.12.0",
+      "from": "smtp-connection@2.12.0",
+      "resolved": "https://registry.npmjs.org/smtp-connection/-/smtp-connection-2.12.0.tgz"
+    },
     "spdy": {
       "version": "3.4.4",
       "from": "https://registry.npmjs.org/spdy/-/spdy-3.4.4.tgz",
@@ -636,6 +676,11 @@
       "version": "1.6.14",
       "from": "type-is@>=1.6.13 <1.7.0",
       "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.14.tgz"
+    },
+    "underscore": {
+      "version": "1.7.0",
+      "from": "underscore@>=1.7.0 <1.8.0",
+      "resolved": "https://registry.npmjs.org/underscore/-/underscore-1.7.0.tgz"
     },
     "unpipe": {
       "version": "1.0.0",

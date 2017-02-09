@@ -12,4 +12,4 @@ docker volume prune
 
 docker build -t notification-service .
 
-docker run --name notification-service -p 3002:3000 --env-file env -d notification-service
+docker run --name notification-service -p 3003:3000 --env-file env -d notification-service
