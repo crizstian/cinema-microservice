@@ -1,9 +1,7 @@
-const {dbSettings, serverSettings} = require('./config')
-const database = require('./db')
+const {smtpSettings, serverSettings} = require('./config')
 const {initDI} = require('./di')
 const models = require('../models')
-const services = require('../services')
 
-const init = initDI.bind(null, {serverSettings, dbSettings, database, models, services})
+const init = initDI.bind(null, {serverSettings, smtpSettings, models})
 
 module.exports = Object.assign({}, {init})
