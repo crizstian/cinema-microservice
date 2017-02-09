@@ -1,5 +1,5 @@
 # Node v7 as the base image to support ES6
-FROM node:7.2.0
+FROM node:7.5.0
 
 # Create a new user to our new container and avoid the root user
 RUN useradd --user-group --create-home --shell /bin/false nupp && \
