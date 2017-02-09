@@ -49,7 +49,6 @@ describe('Payment API', () => {
     },
     getPurchaseById ({container}, orderId) {
       return new Promise((resolve, reject) => {
-        console.log(orderId)
         container.cradle.stripe.charges.retrieve(orderId, (err, charge) => {
           if (err) {
             reject(err)

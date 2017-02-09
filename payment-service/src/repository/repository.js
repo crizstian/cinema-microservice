@@ -4,7 +4,8 @@ const repository = (container) => {
 
   const makePurchase = (payment) => {
     return new Promise((resolve, reject) => {
-      container.cradle.stripe.charges.create({
+      const {stripe} = container.cradle
+      stripe.charges.create({
         amount: Math.ceil(payment.amount * 100),
         currency: payment.currency,
         source: {

@@ -4,11 +4,7 @@
 
 Example of the **cinema catalog service** microservice and API.
 
-![](https://cdn-images-1.medium.com/max/1600/1*IIubhnmWMrxiE5fzF7Kmvw.png)
-
-### Architecture at the moment for the step-3
-![](https://cdn-images-1.medium.com/max/1600/1*n9fXFHppV5FXRnIyQvlpeQ.png)
-
+![](https://cdn-images-1.medium.com/max/1600/1*jxFIFA8WI8TkMmdbOorOsA.png)
 
 ### Stack
 - NodeJS 7.5.0

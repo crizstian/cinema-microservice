@@ -2,14 +2,14 @@
 
 eval `docker-machine env manager1`
 
-docker rm -f booking-service
+docker rm -f payment-service
 
-docker rmi booking-service
+docker rmi payment-service
 
 docker image prune
 
 docker volume prune
 
-docker build -t booking-service .
+docker build -t payment-service .
 
-docker run --name booking-service -p 3001:3000 --env-file env -d booking-service
+docker run --name payment-service -p 3002:3000 --env-file env -d payment-service
