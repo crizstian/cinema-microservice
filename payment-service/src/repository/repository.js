@@ -57,7 +57,7 @@ const repository = (container) => {
   }
 
   return Object.create({
-    makePurchase,
+    registerPurchase,
     getPurchaseById,
     disconnect
   })

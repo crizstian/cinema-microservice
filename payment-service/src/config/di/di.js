@@ -10,7 +10,7 @@ function initDI ({serverSettings, dbSettings, database, models, stripeSettings},
         database: asValue(db),
         validate: asValue(models.validate),
         ObjectID: asValue(database.ObjectID),
-        serverSettings: asValue(serverSettings)
+        serverSettings: asValue(serverSettings),
         stripe: asValue(stripe(stripeSettings.secret))
       })
 

@@ -27,6 +27,11 @@
       "from": "basic-auth@>=1.0.3 <1.1.0",
       "resolved": "https://registry.npmjs.org/basic-auth/-/basic-auth-1.0.4.tgz"
     },
+    "bluebird": {
+      "version": "2.11.0",
+      "from": "bluebird@>=2.10.2 <3.0.0",
+      "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.11.0.tgz"
+    },
     "body-parser": {
       "version": "1.16.0",
       "from": "body-parser@latest",
@@ -372,6 +377,11 @@
         }
       }
     },
+    "lodash.isplainobject": {
+      "version": "4.0.6",
+      "from": "lodash.isplainobject@>=4.0.6 <5.0.0",
+      "resolved": "https://registry.npmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz"
+    },
     "lodash.reduce": {
       "version": "4.6.0",
       "from": "lodash.reduce@4.6.0",
@@ -480,6 +490,11 @@
       "version": "2.0.0",
       "from": "nocache@2.0.0",
       "resolved": "https://registry.npmjs.org/nocache/-/nocache-2.0.0.tgz"
+    },
+    "object-assign": {
+      "version": "4.1.1",
+      "from": "object-assign@>=4.0.1 <5.0.0",
+      "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz"
     },
     "obuf": {
       "version": "1.1.1",
@@ -619,6 +634,18 @@
       "version": "0.10.31",
       "from": "string_decoder@>=0.10.0 <0.11.0",
       "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+    },
+    "stripe": {
+      "version": "4.15.0",
+      "from": "stripe@latest",
+      "resolved": "https://registry.npmjs.org/stripe/-/stripe-4.15.0.tgz",
+      "dependencies": {
+        "qs": {
+          "version": "2.4.2",
+          "from": "qs@>=2.4.2 <3.0.0",
+          "resolved": "https://registry.npmjs.org/qs/-/qs-2.4.2.tgz"
+        }
+      }
     },
     "topo": {
       "version": "2.0.2",

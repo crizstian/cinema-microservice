@@ -7,7 +7,7 @@ module.exports = ({repo}, app) => {
 
     validate(req.body.paymentOrder, 'payment')
       .then(payment => {
-        repo.registerPayment(payment)
+        return repo.registerPurchase(payment)
       })
       .then(paid => {
         res.status(status.OK).json({paid})
