@@ -27,7 +27,7 @@ const start = (options) => {
       const server = app.listen(options.port, () => resolve(server))
     } else {
       const server = spdy.createServer(options.ssl, app)
-        .listen(port, () => resolve(server))
+        .listen(options.port, () => resolve(server))
     }
   })
 }
