@@ -1,6 +1,5 @@
-const {dbSettings, serverSettings} = require('./config')
-const database = require('./db')
+const {dockerSettings, serverSettings} = require('./config')
 const {initDI} = require('./di')
-const init = initDI.bind(null, {serverSettings, dbSettings, database})
+const init = initDI.bind(null, {serverSettings, dockerSettings})
 
 module.exports = Object.assign({}, {init})
