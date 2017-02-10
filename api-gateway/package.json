@@ -1,7 +1,7 @@
 {
-  "name": "booking-service",
+  "name": "movies-service",
   "version": "1.0.0",
-  "description": "A Booking service, microservice example with nodejs",
+  "description": "A movie service, microservice example with nodejs",
   "author": "Cristian Ramirez Rosas <cristiano.rosetti@gmail.com>",
   "license": "ISC",
   "main": "index.js",
@@ -29,8 +29,11 @@
     "eslint": "^3.13.1",
     "mocha": "^3.2.0",
     "nodejs-dashboard": "^0.3.0",
+    "nsp": "^2.6.2",
     "should": "^11.1.2",
-    "snazzy": "^6.0.0"
+    "snazzy": "^6.0.0",
+    "standard": "^8.6.0",
+    "supertest": "^2.0.1"
   },
   "dependencies": {
     "awilix": "^2.2.2",
@@ -42,7 +45,6 @@
     "joi": "^10.2.0",
     "mongodb": "^2.1.18",
     "morgan": "^1.7.0",
-    "spdy": "^3.4.4",
-    "supertest": "^3.0.0"
+    "spdy": "^3.4.4"
   }
 }

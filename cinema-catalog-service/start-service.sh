@@ -2,7 +2,13 @@
 
 eval `docker-machine env manager1`
 
-docker volume rm $(docker volume ls -qf dangling=true)
+docker rm -f catalog-service
+
+docker rmi catalog-service
+
+docker image prune
+
+docker volume prune
 
 docker build -t catalog-service .
 
