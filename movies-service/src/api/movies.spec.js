@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const request = require('supertest')
 const server = require('../server/server')
+process.env.NODE = 'test'
 
 describe('Movies API', () => {
   let app = null
