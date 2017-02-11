@@ -7,7 +7,6 @@ const request = require('supertest')
 const server = require('../server/server')
 const models = require('../models')
 const {smtpSettings} = require('../config/config')
-process.env.NODE = 'test'
 
 describe('Booking API', () => {
   let app = null
@@ -113,7 +112,7 @@ describe('Booking API', () => {
     }
 
     request(app)
-      .post('/sendEmail')
+      .post('/notification/sendEmail')
       .send({payload})
       .expect((res) => {
         should.ok(res.body)

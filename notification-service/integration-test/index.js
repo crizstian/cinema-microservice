@@ -1,10 +1,8 @@
 /* eslint-env mocha */
 const supertest = require('supertest')
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
 describe('cinema-catalog-service', () => {
-  const api = supertest('https://192.168.99.100:3003')
+  const api = supertest('http://192.168.99.100:3004')
   const payload = {
     city: 'Morelia',
     userType: 'loyal',
@@ -28,7 +26,7 @@ describe('cinema-catalog-service', () => {
   }
 
   it('can make a booking', (done) => {
-    api.post('/sendEmail')
+    api.post('/notification/sendEmail')
       .send({payload})
       .expect((res) => {
         console.log(res.body)
