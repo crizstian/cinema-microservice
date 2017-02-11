@@ -3,6 +3,7 @@ const repository = (container) => {
   const {database: db} = container.cradle
 
   const makePurchase = (payment) => {
+    console.log(payment)
     return new Promise((resolve, reject) => {
       const {stripe} = container.cradle
       stripe.charges.create({
