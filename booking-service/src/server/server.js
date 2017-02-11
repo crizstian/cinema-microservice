@@ -3,12 +3,11 @@ const morgan = require('morgan')
 const helmet = require('helmet')
 const bodyparser = require('body-parser')
 const cors = require('cors')
-const spdy = require('spdy')
 const _api = require('../api/booking')
 
 const start = (container) => {
   return new Promise((resolve, reject) => {
-    const {port, ssl} = container.resolve('serverSettings')
+    const {port} = container.resolve('serverSettings')
     const repo = container.resolve('repo')
 
     if (!repo) {
@@ -36,12 +35,8 @@ const start = (container) => {
     const api = _api.bind(null, {repo})
     api(app)
 
-    if (process.env.NODE === 'test') {
-      const server = app.listen(port, () => resolve(server))
-    } else {
-      const server = spdy.createServer(ssl, app)
-        .listen(port, () => resolve(server))
-    }
+    const server = app.listen(port, () => resolve(server))
+
   })
 }
 

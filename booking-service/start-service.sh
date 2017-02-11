@@ -12,4 +12,4 @@ docker volume prune
 
 docker build -t booking-service .
 
-docker run --name booking-service -p 3001:3000 --env-file env -d booking-service
+docker run --name booking-service -l=apiRoute='/booking' -p 3002:3000 --env-file env -d booking-service

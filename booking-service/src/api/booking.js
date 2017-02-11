@@ -19,7 +19,7 @@ module.exports = ({repo}, app) => {
         cvc: user.creditCard.cvc,
         exp_month: user.creditCard.exp_month,
         exp_year: user.creditCard.exp_year,
-        amount: booking.amount,
+        amount: booking.totalAmount,
         description: `
           Tickect(s) for movie ${booking.movie},
           with seat(s) ${booking.seats.toString()}
@@ -33,6 +33,7 @@ module.exports = ({repo}, app) => {
       ])
     })
     .then(([paid, user, booking]) => {
+      console.log(paid)
       return Promise.all([
         repo.makeBooking(user, booking),
         repo.generateTicket(paid, booking),

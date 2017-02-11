@@ -1,21 +1,19 @@
 /* eslint-env mocha */
 const supertest = require('supertest')
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
 describe('cinema-catalog-service', () => {
-  const api = supertest('https://192.168.99.100:3001')
+  const api = supertest('http://192.168.99.100:3002')
   const now = new Date()
   now.setDate(now.getDate() + 1)
   const user = {
     name: 'Cristian',
     lastName: 'Ramirez',
-    email: 'cristiano@nupp.com',
+    email: 'cristiano@gmail.com',
     creditCard: {
-      number: '1111222233334444',
+      number: '4242424242424242',
       cvc: '123',
-      exp_month: '07',
-      exp_year: '2017'
+      exp_month: '12',
+      exp_year: '2017',
     },
     membership: '7777888899990000'
   }

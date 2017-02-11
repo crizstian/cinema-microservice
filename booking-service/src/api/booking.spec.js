@@ -5,7 +5,6 @@ const request = require('supertest')
 const server = require('../server/server')
 const models = require('../models')
 const services = require('../services')
-process.env.NODE = 'test'
 
 describe('Booking API', () => {
   let app = null

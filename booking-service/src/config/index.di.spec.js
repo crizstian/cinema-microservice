@@ -8,7 +8,6 @@ describe('DI configuration', () => {
     const mediator = new EventEmitter()
 
     mediator.on('di.ready', (container) => {
-      console.log(database)
       console.log(container)
       done()
     })
