@@ -1,7 +1,7 @@
 #%RAML 1.0
 title: Movies Service
 version: v1
-baseUri: /
+baseUri: /movies
 
 types:
   Movie:
@@ -29,7 +29,7 @@ types:
 
 
 resourceTypes:
-  Collection:
+  GET:
     get:
       responses:
         200:
@@ -37,9 +37,9 @@ resourceTypes:
             application/json:
               type: <<item>>
 
-/movies:
+/:
   /premieres:
-    type:  { Collection: {item : MoviePremieres } }
+    type:  { GET: {item : MoviePremieres } }
 
   /{id}:
-    type:  { Collection: {item : Movie } }
+    type:  { GET: {item : Movie } }

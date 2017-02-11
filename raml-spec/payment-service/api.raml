@@ -1,0 +1,50 @@
+#%RAML 1.0
+title: Booking Service
+version: v1
+baseUri: /payment
+
+types:
+  PaymentOrder:
+    properties:
+      userName: string
+      currency: string
+      number: string
+      cvc: number
+      exp_month: number
+      exp_year: number
+      amount: number
+      description: string
+  Payment:
+    properties:
+      paid: PaymentOrder
+      amount: number
+      username: string
+      charge: object
+
+
+resourceTypes:
+  GET:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: <<item>>
+
+  POST:
+    post:
+      body:
+        application/json:
+          type: <<item>>
+      responses:
+        201:
+          body:
+            application/json:
+              type: <<item2>>
+
+
+/makePurchase:
+  type:   { POST: {item : PaymentOrder, item2: Payment} }
+
+/getPurchaseById/{id}:
+  type:  { GET: {item : Payment} }

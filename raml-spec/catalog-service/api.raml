@@ -1,7 +1,7 @@
 #%RAML 1.0
 title: Cinema Catalog Service
 version: v1
-baseUri: /
+baseUri: /cinemas
 uses:
   object: types.raml
   stack: ../movies-service/api.raml
@@ -13,7 +13,7 @@ types:
   Cinemas: object.Cinema []
   Movies: stack.MoviePremieres
   Schedules: object.Schedule []
-  
+
 
 resourceTypes:
   GET:
@@ -24,20 +24,12 @@ resourceTypes:
             application/json:
               type: <<item>>
 
-/catalog:
-  type:  { GET: {item : Countries } }
 
-  /{state}:
-    type:  { GET: {item : States } }
+/:
+  type:  { GET: {item : Cinemas } }
 
-    /{city}:
-      type:  { GET: {item : Cities } }
+  /{cinema_id}:
+    type:  { GET: {item : Movies } }
 
-      /cinemas:
-        type:  { GET: {item : Cinemas } }
-
-        /cinemas/{cinema_id}:
-          type:  { GET: {item : Movies } }
-
-          /cinemas/{cinema_id}/{movie_id}:
-            type:  { GET: {item : Schedules } }
+    /{movie_id}:
+      type:  { GET: {item : Schedules } }

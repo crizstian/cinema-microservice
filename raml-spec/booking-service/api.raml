@@ -1,7 +1,7 @@
 #%RAML 1.0
 title: Booking Service
 version: v1
-baseUri: /
+baseUri: /booking
 
 types:
   Booking:
@@ -56,7 +56,7 @@ resourceTypes:
               type: <<item3>>
 
 
-/booking:
+/:
   type:   { POST: {item : Booking, item2 : User, item3: Ticket} }
   description: The booking service need a Booking object that contains all
     the needed information to make a purchase of cinema tickets.

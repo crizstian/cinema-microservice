@@ -1,0 +1,50 @@
+#%RAML 1.0
+title: Booking Service
+version: v1
+baseUri: /notification
+
+types:
+  Cinema:
+    properties:
+      name: string
+      room: string
+      seats: string
+  Movie:
+    properties:
+      title: string
+      format: string
+      schedule: datetime
+  User:
+    properties:
+      name: string
+      email: string
+
+  Payload:
+    properties:
+      city: string
+      userType: string
+      totalAmount: number
+      cinema: Cinema
+      movie: Movie
+      orderId: string
+      description: string
+      user: User
+
+resourceTypes:
+  POST:
+    post:
+      body:
+        application/json:
+          type: <<item>>
+      responses:
+        201:
+          body:
+            application/json:
+              type: object
+
+
+/sendEmail:
+  type:   { POST: {item : Payload} }
+
+/sendSMS:
+  type:   { POST: {item : Payload} }
