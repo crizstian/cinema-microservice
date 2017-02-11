@@ -5,8 +5,8 @@ const repository = require('./repository/repository')
 const di = require('./config')
 const mediator = new EventEmitter()
 
-console.log('--- Booking Service ---')
-console.log('Connecting to movies repository...')
+console.log('--- Payment Service ---')
+console.log('Connecting to payment repository...')
 
 process.on('uncaughtException', (err) => {
   console.error('Unhandled Exception', err)

@@ -2,7 +2,7 @@
 const status = require('http-status')
 
 module.exports = ({repo}, app) => {
-  app.post('/makePurchase', (req, res, next) => {
+  app.post('/payment/makePurchase', (req, res, next) => {
     const {validate} = req.container.cradle
 
     validate(req.body.paymentOrder, 'payment')
@@ -15,7 +15,7 @@ module.exports = ({repo}, app) => {
       .catch(next)
   })
 
-  app.get('/getPurchaseById/:id', (req, res, next) => {
+  app.get('/payment/getPurchaseById/:id', (req, res, next) => {
     repo.getPurchaseById(req.params.id)
       .then(payment => {
         res.status(status.OK).json({payment})

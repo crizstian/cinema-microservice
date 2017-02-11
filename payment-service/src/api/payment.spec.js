@@ -6,7 +6,6 @@ const should = require('should')
 const request = require('supertest')
 const models = require('../models')
 const server = require('../server/server')
-process.env.NODE = 'test'
 
 describe('Payment API', () => {
   let app = null
@@ -95,7 +94,7 @@ describe('Payment API', () => {
     }
 
     request(app)
-      .post('/makePurchase')
+      .post('/payment/makePurchase')
       .send({paymentOrder: testPayment})
       .expect((res) => {
         should.ok(res.body.paid)
@@ -106,7 +105,7 @@ describe('Payment API', () => {
 
   it('can get purchase', (done) => {
     request(app)
-      .get('/getPurchaseById/' + paid.charge.id)
+      .get('/payment/getPurchaseById/' + paid.charge.id)
       .expect((res) => {
         should.ok(res.body.payment)
         should.equal(res.body.payment.amount, 71 * 100)

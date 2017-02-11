@@ -12,4 +12,4 @@ docker volume prune
 
 docker build -t payment-service .
 
-docker run --name payment-service -p 3002:3000 --env-file env -d payment-service
+docker run --name payment-service -l=apiRoute='/payment' -p 3003:3000 --env-file env -d payment-service
