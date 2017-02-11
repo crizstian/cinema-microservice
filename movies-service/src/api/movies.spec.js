@@ -1,7 +1,6 @@
 /* eslint-env mocha */
 const request = require('supertest')
 const server = require('../server/server')
-process.env.NODE = 'test'
 
 describe('Movies API', () => {
   let app = null
@@ -72,7 +71,7 @@ describe('Movies API', () => {
 
   it('can get movie premiers', (done) => {
     request(app)
-    .get('/movies/premiers')
+    .get('/movies/premieres')
     .expect((res) => {
       res.body.should.containEql({
         'id': '1',

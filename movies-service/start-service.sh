@@ -12,4 +12,4 @@ docker volume prune
 
 docker build -t movies-service .
 
-docker run --name movies-service -p 443:3000 -d movies-service
+docker run --name movies-service -e NODE='proxy' -l=apiRoute='/movies' -p 3000:3000 -d movies-service
