@@ -39,6 +39,7 @@
     "awilix": "^2.2.2",
     "body-parser": "^1.16.0",
     "cors": "^2.8.1",
+    "dockerode": "^2.3.1",
     "express": "^4.14.0",
     "helmet": "^3.4.0",
     "http-proxy": "^1.16.2",

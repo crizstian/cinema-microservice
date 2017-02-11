@@ -69,6 +69,11 @@
       "from": "camelize@1.0.0",
       "resolved": "https://registry.npmjs.org/camelize/-/camelize-1.0.0.tgz"
     },
+    "collections": {
+      "version": "3.0.0",
+      "from": "collections@3.0.0",
+      "resolved": "https://registry.npmjs.org/collections/-/collections-3.0.0.tgz"
+    },
     "concat-map": {
       "version": "0.0.1",
       "from": "concat-map@0.0.1",
@@ -156,6 +161,28 @@
       "from": "dns-prefetch-control@0.1.0",
       "resolved": "https://registry.npmjs.org/dns-prefetch-control/-/dns-prefetch-control-0.1.0.tgz"
     },
+    "docker-modem": {
+      "version": "0.3.4",
+      "from": "docker-modem@>=0.3.0 <0.4.0",
+      "resolved": "https://registry.npmjs.org/docker-modem/-/docker-modem-0.3.4.tgz",
+      "dependencies": {
+        "isarray": {
+          "version": "0.0.1",
+          "from": "isarray@0.0.1",
+          "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+        },
+        "readable-stream": {
+          "version": "1.0.34",
+          "from": "readable-stream@>=1.0.26-4 <1.1.0",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.0.34.tgz"
+        }
+      }
+    },
+    "dockerode": {
+      "version": "2.3.1",
+      "from": "dockerode@latest",
+      "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-2.3.1.tgz"
+    },
     "dont-sniff-mimetype": {
       "version": "1.0.0",
       "from": "dont-sniff-mimetype@1.0.0",
@@ -185,6 +212,11 @@
       "version": "1.7.0",
       "from": "etag@>=1.7.0 <1.8.0",
       "resolved": "https://registry.npmjs.org/etag/-/etag-1.7.0.tgz"
+    },
+    "eventemitter3": {
+      "version": "1.2.0",
+      "from": "eventemitter3@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-1.2.0.tgz"
     },
     "express": {
       "version": "4.14.0",
@@ -295,6 +327,11 @@
       "from": "http-errors@>=1.5.0 <1.6.0",
       "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-1.5.1.tgz"
     },
+    "http-proxy": {
+      "version": "1.16.2",
+      "from": "http-proxy@latest",
+      "resolved": "https://registry.npmjs.org/http-proxy/-/http-proxy-1.16.2.tgz"
+    },
     "http-status": {
       "version": "0.2.5",
       "from": "http-status@latest",
@@ -317,7 +354,7 @@
     },
     "inherits": {
       "version": "2.0.3",
-      "from": "inherits@>=2.0.3 <3.0.0",
+      "from": "inherits@>=2.0.1 <2.1.0",
       "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz"
     },
     "ipaddr.js": {
@@ -371,6 +408,16 @@
           "resolved": "https://registry.npmjs.org/hoek/-/hoek-4.1.0.tgz"
         }
       }
+    },
+    "jsonparse": {
+      "version": "0.0.5",
+      "from": "jsonparse@0.0.5",
+      "resolved": "https://registry.npmjs.org/jsonparse/-/jsonparse-0.0.5.tgz"
+    },
+    "JSONStream": {
+      "version": "0.10.0",
+      "from": "JSONStream@0.10.0",
+      "resolved": "https://registry.npmjs.org/JSONStream/-/JSONStream-0.10.0.tgz"
     },
     "lodash.reduce": {
       "version": "4.6.0",
@@ -481,6 +528,18 @@
       "from": "nocache@2.0.0",
       "resolved": "https://registry.npmjs.org/nocache/-/nocache-2.0.0.tgz"
     },
+    "node-docker-monitor": {
+      "version": "1.0.10",
+      "from": "node-docker-monitor@latest",
+      "resolved": "https://registry.npmjs.org/node-docker-monitor/-/node-docker-monitor-1.0.10.tgz",
+      "dependencies": {
+        "dockerode": {
+          "version": "2.2.10",
+          "from": "dockerode@2.2.10",
+          "resolved": "https://registry.npmjs.org/dockerode/-/dockerode-2.2.10.tgz"
+        }
+      }
+    },
     "obuf": {
       "version": "1.1.1",
       "from": "obuf@>=1.1.0 <2.0.0",
@@ -503,7 +562,7 @@
     },
     "parseurl": {
       "version": "1.3.1",
-      "from": "parseurl@>=1.3.1 <1.4.0",
+      "from": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.1.tgz",
       "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.1.tgz"
     },
     "path-is-absolute": {
@@ -563,6 +622,11 @@
         }
       }
     },
+    "requires-port": {
+      "version": "1.0.0",
+      "from": "requires-port@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
+    },
     "select-hose": {
       "version": "2.0.0",
       "from": "select-hose@>=2.0.0 <3.0.0",
@@ -610,6 +674,11 @@
       "from": "spdy-transport@>=2.0.15 <3.0.0",
       "resolved": "https://registry.npmjs.org/spdy-transport/-/spdy-transport-2.0.18.tgz"
     },
+    "split-ca": {
+      "version": "1.0.1",
+      "from": "split-ca@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/split-ca/-/split-ca-1.0.1.tgz"
+    },
     "statuses": {
       "version": "1.3.1",
       "from": "statuses@>=1.3.0 <1.4.0",
@@ -618,7 +687,12 @@
     "string_decoder": {
       "version": "0.10.31",
       "from": "string_decoder@>=0.10.0 <0.11.0",
-      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+      "resolved": "http://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
+    },
+    "through": {
+      "version": "2.3.8",
+      "from": "through@>=2.2.7 <3.0.0",
+      "resolved": "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
     },
     "topo": {
       "version": "2.0.2",
@@ -666,6 +740,11 @@
       "version": "1.7.2",
       "from": "wbuf@>=1.4.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/wbuf/-/wbuf-1.7.2.tgz"
+    },
+    "weak-map": {
+      "version": "1.0.5",
+      "from": "weak-map@>=1.0.0 <1.1.0",
+      "resolved": "https://registry.npmjs.org/weak-map/-/weak-map-1.0.5.tgz"
     },
     "wrappy": {
       "version": "1.0.2",

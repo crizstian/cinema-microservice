@@ -11,6 +11,6 @@ describe('Server', () => {
   it('should require a repository to start', () => {
     return server.start({
       port: {}
-    }).should.be.rejectedWith(/repository/)
+    }).should.be.rejectedWith(/routes/)
   })
 })

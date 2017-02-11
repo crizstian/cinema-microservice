@@ -1,46 +1,60 @@
 'use strict'
-const monitor = require('node-docker-monitor')
 const http = require('http')
 const httpProxy = require('http-proxy')
 const parseurl = require('parseurl')
 
 const start = (container) => {
   return new Promise((resolve, reject) => {
-    const {port, ssl} = container.resolve('serverSettings')
-    const dockerSettings = container.resolve('dockerSettings')
-    const repo = container.resolve('repo')
+    const {port} = container.resolve('serverSettings')
+    const routes = container.resolve('routes')
 
-    if (!repo) {
-      reject(new Error('The server must be started with a connected repository'))
+    if (!routes) {
+      reject(new Error('The server must be started with routes discovered'))
     }
     if (!port) {
       reject(new Error('The server must be started with an available port'))
     }
 
-    console.log('Connecting to Docker: %j', dockerSettings)
+    // proxy HTTP request / response to / from destination upstream service if route matches
+    const handleRoute = (route, req, res) => {
+      const url = req.url
+      const parsedUrl = parseurl(req)
 
-    // available routes collection
-    let routes = {}
+      if (parsedUrl.path.indexOf(route.apiRoute) === 0) {
+        req.url = url.replace(route.apiRoute, '')
+        proxy.web(req, res, { target: route.upstreamUrl })
+        return true
+      }
+    }
 
-    monitor({
-      onContainerUp: function (container) {
-        console.log('Container up: ', container)
-      },
+    // send 502 response to the client in case of an error
+    const returnError = (req, res) => {
+      res.writeHead(502, {'Content-Type': 'text/plain'})
+      res.write('Bad Gateway for: ' + req.url)
+      res.end()
+    }
 
-      onContainerDown: function (container) {
-        console.log('Container down: ', container)
+    // create and start http server
+    const server = http.createServer((req, res) => {
+      for (let id in routes) {
+        if (routes.hasOwnProperty(id)) {
+          handleRoute(routes[id], req, res)
+        }
+      }
+      returnError(req, res)
+    })
+
+    // create proxy
+    const proxy = httpProxy.createProxyServer()
+    proxy.on('error', (err, req, res) => {
+      if (err) {
+        returnError(req, res)
       }
     })
 
-    const proxy = httpProxy.createProxyServer({target: 'http://localhost:9000'})
-
-    http.createServer(function (req, res) {
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.write('request successfully proxied!' + '\n' + JSON.stringify(req.headers, true, 2))
-      res.end()
-    }).listen(9000)
-
-    resolve(proxy)
+    server.listen(port, () => {
+      resolve(server)
+    })
   })
 }
 
