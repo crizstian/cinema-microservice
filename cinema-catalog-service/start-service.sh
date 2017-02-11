@@ -12,4 +12,4 @@ docker volume prune
 
 docker build -t catalog-service .
 
-docker run --name catalog-service -p 3000:3000 --env-file env -d catalog-service
+docker run --name catalog-service -l=apiRoute='/cinemas' -p 3001:3000 --env-file env -d catalog-service
