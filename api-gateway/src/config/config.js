@@ -29,4 +29,6 @@ const dockerSettings = {
   key: fs.readFileSync(certDir + '/key.pem')
 }
 
+console.log(dockerSettings)
+
 module.exports = Object.assign({}, { serverSettings, dockerSettings })

@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const supertest = require('supertest')
 
-describe('cinema-catalog-service', () => {
+describe('Booking Service', () => {
   const api = supertest('http://192.168.99.100:3002')
   const now = new Date()
   now.setDate(now.getDate() + 1)

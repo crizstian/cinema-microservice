@@ -7,12 +7,20 @@ const discoverRoutes = (container) => {
   // generate upstream url from containerDetails
   const getUpstreamUrl = (containerDetails) => {
     const port = containerDetails.Ports[0].PublicPort
-    return `https://${dockerSettings.host}:${port}`
+    return `http://${dockerSettings.host}:${port}`
   }
 
   return new Promise((resolve, reject) => {
-    const docker = new Docker(dockerSettings)
+    const docker = new Docker({dockerSettings})
     const routes = {}
+
+    docker.info((err, info) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log(info)
+    })
+
     docker.listContainers((err, containers) => {
       if (err) {
         reject(new Error('an error occured listing containers, err: ' + err))
@@ -21,7 +29,7 @@ const discoverRoutes = (container) => {
         if (!/mongo/.test(containerInfo.Names[0])) {
           routes[containerInfo.Id] = {
             name: containerInfo.Names[0],
-            apiRoute: containerInfo.Names[0],
+            apiRoute: containerInfo.Labels.apiRoute,
             upstreamUrl: getUpstreamUrl(containerInfo)
           }
         }

@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const supertest = require('supertest')
 
-describe('cinema-catalog-service', () => {
+describe('Notification Service', () => {
   const api = supertest('http://192.168.99.100:3004')
   const payload = {
     city: 'Morelia',
@@ -25,7 +25,7 @@ describe('cinema-catalog-service', () => {
     }
   }
 
-  it('can make a booking', (done) => {
+  it('can send a notification via email', (done) => {
     api.post('/notification/sendEmail')
       .send({payload})
       .expect((res) => {

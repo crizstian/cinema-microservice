@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const supertest = require('supertest')
 
-describe('cinema-catalog-service', () => {
+describe('Payment Servie', () => {
   const api = supertest('http://192.168.99.100:3003')
   const testPayment = {
     userName: 'Cristian Ramirez',
@@ -17,7 +17,7 @@ describe('cinema-catalog-service', () => {
       at time 8 / feb / 17`
   }
 
-  it('can make a booking', (done) => {
+  it('can make a paymentOrder', (done) => {
     api.post('/payment/makePurchase')
       .send({paymentOrder: testPayment})
       .expect((res) => {
