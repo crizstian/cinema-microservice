@@ -2,7 +2,7 @@
 const supertest = require('supertest')
 
 describe('cinema-catalog-service', () => {
-  const api = supertest('https://localhost:8080')
+  const api = supertest('http://localhost:8080')
 
   it('returns a 200 for a known movies through api-gateway', (done) => {
     api.get('/movies/premieres')
@@ -14,17 +14,18 @@ describe('cinema-catalog-service', () => {
       .expect(200, done)
   })
 
-  it('can make a booking through api-gateway', (done) => {
+  it('can make a booking through api-gateway', function (done) {
+    this.timeout(3000)
     const now = new Date()
     now.setDate(now.getDate() + 1)
     const user = {
       name: 'Cristian',
       lastName: 'Ramirez',
-      email: 'cristiano@nupp.com',
+      email: 'cristiano@gmail.com',
       creditCard: {
-        number: '1111222233334444',
+        number: '4242424242424242',
         cvc: '123',
-        exp_month: '07',
+        exp_month: '12',
         exp_year: '2017'
       },
       membership: '7777888899990000'
@@ -42,13 +43,11 @@ describe('cinema-catalog-service', () => {
 
     api.post('/booking')
       .send({user, booking})
-      .expect((res) => {
-        console.log(res.body)
-      })
       .expect(200, done)
   })
 
-  it('can make a paymentOrder through api-gateway', (done) => {
+  it('can make a paymentOrder through api-gateway', function (done) {
+    this.timeout(3000)
     const testPayment = {
       userName: 'Cristian Ramirez',
       currency: 'mxn',
@@ -64,13 +63,11 @@ describe('cinema-catalog-service', () => {
     }
     api.post('/payment/makePurchase')
       .send({paymentOrder: testPayment})
-      .expect((res) => {
-        console.log(res.body)
-      })
       .expect(200, done)
   })
 
-  it('can send a notification through api-gateway', (done) => {
+  it('can send a notification through api-gateway', function (done) {
+    this.timeout(3000)
     const payload = {
       city: 'Morelia',
       userType: 'loyal',
@@ -94,9 +91,6 @@ describe('cinema-catalog-service', () => {
     }
     api.post('/notification/sendEmail')
       .send({payload})
-      .expect((res) => {
-        console.log(res.body)
-      })
       .expect(200, done)
   })
 })

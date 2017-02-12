@@ -2,23 +2,22 @@
 const Docker = require('dockerode')
 
 const discoverRoutes = (container) => {
-  const dockerSettings = container.resolve('dockerSettings')
-
-  // generate upstream url from containerDetails
-  const getUpstreamUrl = (containerDetails) => {
-    const port = containerDetails.Ports[0].PublicPort
-    return `http://${dockerSettings.host}:${port}`
-  }
-
   return new Promise((resolve, reject) => {
-    const docker = new Docker({dockerSettings})
-    const routes = {}
+    const dockerSettings = container.resolve('dockerSettings')
 
-    docker.info((err, info) => {
-      if (err) {
-        console.log(err)
+    const docker = new Docker(dockerSettings)
+
+    // generate upstream url from containerDetails
+    const getUpstreamUrl = (containerDetails) => {
+      const port = containerDetails.Ports[0].PublicPort
+      return `http://${dockerSettings.host}:${port}`
+    }
+
+    const routes = new Proxy({}, {
+      get (target, key) {
+        console.log(`Get on property "${key}"`)
+        return Reflect.get(target, key)
       }
-      console.log(info)
     })
 
     docker.listContainers((err, containers) => {
@@ -28,9 +27,10 @@ const discoverRoutes = (container) => {
       containers.forEach((containerInfo) => {
         if (!/mongo/.test(containerInfo.Names[0])) {
           routes[containerInfo.Id] = {
-            name: containerInfo.Names[0],
-            apiRoute: containerInfo.Labels.apiRoute,
-            upstreamUrl: getUpstreamUrl(containerInfo)
+            id: containerInfo.Id,
+            name: containerInfo.Names[0].split('').splice(1).join(''),
+            route: containerInfo.Labels.apiRoute,
+            target: getUpstreamUrl(containerInfo)
           }
         }
       })

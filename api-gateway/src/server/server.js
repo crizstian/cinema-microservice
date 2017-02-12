@@ -16,14 +16,14 @@ const start = (container) => {
     }
 
     const app = express()
-    for (const id in routes) {
-      if (routes.hasOwnProperty(id)) {
-        app.use(routes[id].apiRoute.toString(), proxy({
-          target: routes[id].upstreamUrl,
-          changeOrigin: true,
-          logLevel: 'debug'
-        }))
-      }
+
+    for (let id of Reflect.ownKeys(routes)) {
+      const {route, target} = routes[id]
+      app.use(route, proxy({
+        target,
+        changeOrigin: true,
+        logLevel: 'debug'
+      }))
     }
 
     const server = app.listen(port, () => resolve(server))

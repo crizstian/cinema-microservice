@@ -26,9 +26,8 @@ const dockerSettings = {
   checkServerIdentity: false,
   ca: fs.readFileSync(certDir + '/ca.pem'),
   cert: fs.readFileSync(certDir + '/cert.pem'),
-  key: fs.readFileSync(certDir + '/key.pem')
+  key: fs.readFileSync(certDir + '/key.pem'),
+  version: 'v1.25'
 }
-
-console.log(dockerSettings)
 
 module.exports = Object.assign({}, { serverSettings, dockerSettings })
