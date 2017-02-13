@@ -9,13 +9,13 @@ const discoverRoutes = (container) => {
 
     // generate upstream url from containerDetails
     const getUpstreamUrl = (containerDetails) => {
-      const port = containerDetails.Ports[0].PublicPort
-      return `http://${dockerSettings.host}:${port}`
+      const {PublicPort} = containerDetails.Ports[0]
+      return `http://${dockerSettings.host}:${PublicPort}`
     }
 
     const routes = new Proxy({}, {
       get (target, key) {
-        console.log(`Get on property "${key}"`)
+        console.log(`Get properties from -> "${key}" container`)
         return Reflect.get(target, key)
       }
     })

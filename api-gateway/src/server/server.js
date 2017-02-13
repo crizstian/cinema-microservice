@@ -1,11 +1,11 @@
 'use strict'
 const express = require('express')
 const proxy = require('http-proxy-middleware')
-const parseurl = require('parseurl')
+const spdy = require('spdy')
 
 const start = (container) => {
   return new Promise((resolve, reject) => {
-    const {port} = container.resolve('serverSettings')
+    const {port, ssl} = container.resolve('serverSettings')
     const routes = container.resolve('routes')
 
     if (!routes) {
@@ -26,7 +26,12 @@ const start = (container) => {
       }))
     }
 
-    const server = app.listen(port, () => resolve(server))
+    if (process.env.NODE === 'test') {
+      const server = app.listen(port, () => resolve(server))
+    } else {
+      const server = spdy.createServer(ssl, app)
+        .listen(port, () => resolve(server))
+    }
   })
 }
 

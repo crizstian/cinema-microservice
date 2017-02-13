@@ -15,4 +15,24 @@ Example of the **cinema catalog service** microservice and API.
 - MongoDB 3.4.1
 - Docker for Mac 1.13
 
+### how to run it
+
+**To run in locally**
+we need nodejs installed
+
+- install the dependencies
+```
+$ npm i --silent
+```
+
+- run the tests
+```
+$ npm test
+```
+
+- start the service
+```
+$ npm start
+```
+
 [![Standard - JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)

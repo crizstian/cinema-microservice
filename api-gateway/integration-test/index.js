@@ -1,8 +1,10 @@
 /* eslint-env mocha */
 const supertest = require('supertest')
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
 describe('cinema-catalog-service', () => {
-  const api = supertest('http://localhost:8080')
+  const api = supertest('https://localhost:8080')
 
   it('returns a 200 for a known movies through api-gateway', (done) => {
     api.get('/movies/premieres')
@@ -15,7 +17,7 @@ describe('cinema-catalog-service', () => {
   })
 
   it('can make a booking through api-gateway', function (done) {
-    this.timeout(3000)
+    this.timeout(5000)
     const now = new Date()
     now.setDate(now.getDate() + 1)
     const user = {
