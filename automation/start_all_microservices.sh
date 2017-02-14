@@ -7,6 +7,7 @@ array=('./movies-service'
   './booking-service'
   './payment-service'
   './notification-service'
+  './api-gateway'
 )
 
 # we go to the root of the project

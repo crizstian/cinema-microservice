@@ -4,7 +4,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
 describe('cinema-catalog-service', () => {
-  const api = supertest('https://localhost:8080')
+  const api = supertest('https://192.168.99.100:8080')
 
   it('returns a 200 for a known movies through api-gateway', (done) => {
     api.get('/movies/premieres')

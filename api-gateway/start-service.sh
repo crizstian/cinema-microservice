@@ -12,4 +12,4 @@ docker volume prune
 
 docker build -t api-gateway-service .
 
-docker run --name api-gateway-service -v /Users/Cramirez/.docker/machine/machines/manager1:/certs -p 3005:3000 --env-file env -d api-gateway-service
+docker run --name api-gateway-service -v /Users/Cramirez/.docker/machine/machines/manager1:/certs --net='host' --env-file env -d api-gateway-service
