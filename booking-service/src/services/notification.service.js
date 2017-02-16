@@ -2,7 +2,7 @@ const supertest = require('supertest')
 
 module.exports = (payload) => {
   return new Promise((resolve, reject) => {
-    supertest('http://192.168.99.100:3004')
+    supertest('http://192.168.99.100:8080')
       .post('/notification/sendEmail')
       .send({payload})
       .end((err, res) => {

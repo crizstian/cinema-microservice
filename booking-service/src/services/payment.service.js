@@ -2,7 +2,7 @@ const supertest = require('supertest')
 
 module.exports = (paymentOrder) => {
   return new Promise((resolve, reject) => {
-    supertest('http://192.168.99.100:3003')
+    supertest('http://192.168.99.100:8080')
       .post('/payment/makePurchase')
       .send({paymentOrder})
       .end((err, res) => {
