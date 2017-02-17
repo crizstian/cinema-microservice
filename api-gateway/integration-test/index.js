@@ -3,21 +3,31 @@ const supertest = require('supertest')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
-describe('cinema-catalog-service', () => {
-  const api = supertest('https://192.168.99.100:8080')
-
+describe('API Gateway Service', () => {
   it('returns a 200 for a known movies through api-gateway', (done) => {
+    const url = 'https://192.168.99.100:8080'
+    const api = supertest(url)
+    console.log(`Calling the server ${url}`)
+
     api.get('/movies/premieres')
       .expect(200, done)
   })
 
   it('returns schedules for a movie through api-gateway', (done) => {
+    const url = 'https://192.168.99.101:8080'
+    const api = supertest(url)
+    console.log(`Calling the server ${url}`)
+
     api.get('/cinemas/588ababf2d029a6d15d0b5bf/1')
       .expect(200, done)
   })
 
   it('can make a booking through api-gateway', function (done) {
     this.timeout(5000)
+    const url = 'https://192.168.99.102:8080'
+    const api = supertest(url)
+    console.log(`Calling the server ${url}`)
+
     const now = new Date()
     now.setDate(now.getDate() + 1)
     const user = {
@@ -50,6 +60,10 @@ describe('cinema-catalog-service', () => {
 
   it('can make a paymentOrder through api-gateway', function (done) {
     this.timeout(3000)
+    const url = 'https://192.168.99.100:8080'
+    const api = supertest(url)
+    console.log(`Calling the server ${url}`)
+
     const testPayment = {
       userName: 'Cristian Ramirez',
       currency: 'mxn',
@@ -70,6 +84,9 @@ describe('cinema-catalog-service', () => {
 
   it('can send a notification through api-gateway', function (done) {
     this.timeout(3000)
+    const url = 'https://192.168.99.101:8080'
+    const api = supertest(url)
+    console.log(`Calling the server ${url}`)
     const payload = {
       city: 'Morelia',
       userType: 'loyal',
