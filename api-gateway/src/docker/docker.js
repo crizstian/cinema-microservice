@@ -14,21 +14,20 @@ const discoverRoutes = (container) => {
       return true
     }
 
+    const getUpstreamUrl = (serviceDetails) => {
+      const {PublishedPort} = serviceDetails.Endpoint.Spec.Ports[0]
+      return `http://${dockerSettings.host}:${PublishedPort}`
+    }
+
     const addRoute = (routes, details) => {
-      routes[details.Id] = {
-        id: details.Id,
-        name: details.Names[0].split('').splice(1).join(''),
-        route: details.Labels.apiRoute,
+      routes[details.Spec.Name] = {
+        id: details.ID,
+        route: details.Spec.Labels.apiRoute,
         target: getUpstreamUrl(details)
       }
     }
 
-    const getUpstreamUrl = (containerDetails) => {
-      const {PublicPort} = containerDetails.Ports[0]
-      return `http://${dockerSettings.host}:${PublicPort}`
-    }
-
-    docker.listContainers((err, containers) => {
+    docker.listServices((err, services) => {
       if (err) {
         reject(new Error('an error occured listing containers, err: ' + err))
       }
@@ -44,10 +43,8 @@ const discoverRoutes = (container) => {
         }
       })
 
-      containers.forEach((containerInfo) => {
-        if (avoidContainers(containerInfo.Names[0])) {
-          addRoute(routes, containerInfo)
-        }
+      services.forEach((service) => {
+        addRoute(routes, service)
       })
 
       resolve(routes)
