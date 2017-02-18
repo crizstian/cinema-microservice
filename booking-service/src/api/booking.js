@@ -39,14 +39,14 @@ module.exports = ({repo}, app) => {
         Promise.resolve(user)
       ])
     })
-    .then([booking, paid, user] => {
+    .then(([booking, paid, user]) => {
       return Promise.all([
         repo.generateTicket(paid, booking),
         Promise.resolve(user)
       ])
     })
-    .then([ticket, user] => {
-      const payload = Object.assign({}, ticket, {user: {name: user.userName, email: user.email}})
+    .then(([ticket, user]) => {
+      const payload = Object.assign({}, ticket, {user: {name: user.name + user.lastName, email: user.email}})
       notificationService(payload)
       res.status(status.OK).json(ticket)
     })

@@ -5,8 +5,6 @@ module.exports = ({repo}, app) => {
   app.post('/notification/sendEmail', (req, res, next) => {
     const {validate} = req.container.cradle
 
-    console.log(req.body.payload)
-
     validate(req.body.payload, 'notification')
       .then(payload => {
         return repo.sendEmail(payload)

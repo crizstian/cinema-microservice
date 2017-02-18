@@ -21,13 +21,15 @@ describe('Booking Service', () => {
   const booking = {
     city: 'Morelia',
     cinema: 'Plaza Morelia',
-    movie: 'Assasins Creed',
+    movie: {
+      title: 'Assasins Creed',
+      format: 'IMAX'
+    },
     schedule: now.toString(),
     cinemaRoom: 7,
     seats: ['45'],
     totalAmount: 71
   }
-
   it('can make a booking', (done) => {
     api.post('/booking')
       .send({user, booking})

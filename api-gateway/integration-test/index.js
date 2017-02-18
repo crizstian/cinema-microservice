@@ -46,7 +46,10 @@ describe('API Gateway Service', () => {
     const booking = {
       city: 'Morelia',
       cinema: 'Plaza Morelia',
-      movie: 'Assasins Creed',
+      movie: {
+        title: 'Assasins Creed',
+        format: 'IMAX'
+      },
       schedule: now.toString(),
       cinemaRoom: 7,
       seats: ['45'],

@@ -7,7 +7,7 @@ const repository = (container) => {
       const payload = {
         city: booking.city,
         userType: (user.membership) ? 'loyal' : 'normal',
-        totalAmount: booking.totAlamount,
+        totalAmount: booking.totalAmount,
         cinema: {
           name: booking.cinema,
           room: booking.cinemaRoom,

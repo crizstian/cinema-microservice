@@ -5,7 +5,7 @@ const notificationSchema = (joi) => ({
   totalAmount: joi.number(),
   cinema: joi.object().keys({
     name: joi.string(),
-    room: joi.string(),
+    room: joi.number(),
     seats: joi.string()
   }),
   movie: joi.object().keys({
@@ -13,7 +13,8 @@ const notificationSchema = (joi) => ({
     format: joi.string(),
     schedule: joi.date()
   }),
-  orderId: joi.string().alphanum(),
+  orderId: joi.string(),
+  _id: joi.string(),
   description: joi.string(),
   user: joi.object().keys({
     name: joi.string(),

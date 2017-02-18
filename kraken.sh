@@ -20,6 +20,8 @@ function setup-mongo {
   echo '·· <<<< git clone the mongodb cluster  ··'
   echo '···························'
 
+  rm -rf mongo-replica-with-docker
+
   # next we download our mongo-replica-set configuration
   git clone https://github.com/Crizstian/mongo-replica-with-docker.git
 
@@ -36,6 +38,20 @@ function setup-mongo {
   cd ..
 }
 
+function setup-images {
+
+    # go inside the docker folder again
+    cd _docker_setup
+
+    echo '···························'
+    echo '·· creating microservices images >>>>  ··'
+    echo '···························'
+
+    # we start all our microservices
+    (bash < create-images.sh)
+
+   cd ..
+}
 
 function setup-services {
 
@@ -53,6 +69,7 @@ function setup-services {
 }
 
 function status {
+  eval `docker-machine env manager1`
   # we verify the docker swarm
   docker node ls
 
@@ -63,7 +80,9 @@ function status {
 function main {
   setup-swarm
   setup-mongo
+  setup-images
   setup-services
+  status
 }
 
 main

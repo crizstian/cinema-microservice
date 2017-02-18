@@ -113,12 +113,19 @@ function status {
   docker-machine ls
 }
 
+# Start RancherOS
+function startRancherOS {
+  echo "-> Starting RancherOS to monitor the cluster"
+  docker-machine ssh manager1 docker run --name rancher --restart=unless-stopped -p 9000:8080 -d rancher/server
+}
+
 function main {
   createManagerNode
   createWorkerNode
   initSwarmManager
   join_node_swarm
   status
+  startRancherOS
 }
 
 function reset {

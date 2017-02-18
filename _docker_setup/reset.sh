@@ -11,6 +11,6 @@ do
   for image in crizstian/movies-service crizstian/cinema-catalog-service crizstian/booking-service crizstian/payment-service crizstian/notification-service
     do
       IMAGE=$(docker images $image -q)
-      docker rmi $IMAGE
+      docker rmi -f $IMAGE
   done
 done
