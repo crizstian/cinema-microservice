@@ -7,13 +7,6 @@ const discoverRoutes = (container) => {
 
     const docker = new Docker(dockerSettings)
 
-    const avoidContainers = (name) => {
-      if (/mongo/.test(name) || /api/.test(name)) {
-        return false
-      }
-      return true
-    }
-
     const getUpstreamUrl = (serviceDetails) => {
       const {PublishedPort} = serviceDetails.Endpoint.Spec.Ports[0]
       return `http://${dockerSettings.host}:${PublishedPort}`
@@ -42,6 +35,8 @@ const discoverRoutes = (container) => {
           return Reflect.set(target, key, value)
         }
       })
+
+      console.log(dockerSettings)
 
       services.forEach((service) => {
         addRoute(routes, service)

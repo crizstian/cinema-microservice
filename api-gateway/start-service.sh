@@ -3,6 +3,9 @@
 for server in manager1 worker1 worker2
 do
     eval `docker-machine env $server`
+
+    echo $(env | grep DOCKER)
+
     docker rm -f api-gateway-service
 
     docker rmi api-gateway-service

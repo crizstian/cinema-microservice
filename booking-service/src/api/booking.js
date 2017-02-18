@@ -33,7 +33,6 @@ module.exports = ({repo}, app) => {
       ])
     })
     .then(([paid, user, booking]) => {
-      console.log(paid)
       return Promise.all([
         repo.makeBooking(user, booking),
         repo.generateTicket(paid, booking),
