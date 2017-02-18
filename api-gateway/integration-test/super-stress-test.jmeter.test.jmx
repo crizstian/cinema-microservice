@@ -12,7 +12,16 @@
     </TestPlan>
     <hashTree>
       <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
-        <collectionProp name="HeaderManager.headers"/>
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Content-Type</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Accept</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+        </collectionProp>
       </HeaderManager>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Testing" enabled="true">
@@ -52,21 +61,7 @@
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol"></stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path"></stringProp>
-          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
-        </ConfigTestElement>
-        <hashTree/>
-        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="Server 192.168.99.102" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">192.168.99.102</stringProp>
-          <stringProp name="HTTPSampler.port">8080</stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
           <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
@@ -120,34 +115,34 @@
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Make a booking" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Make a booking" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	user: {&#xd;
-      name: &apos;Cristian&apos;,&#xd;
-      lastName: &apos;Ramirez&apos;,&#xd;
-      email: &apos;cristiano@gmail.com&apos;,&#xd;
-      creditCard: {&#xd;
-        number: &apos;4242424242424242&apos;,&#xd;
-        cvc: &apos;123&apos;,&#xd;
-        exp_month: &apos;12&apos;,&#xd;
-        exp_year: &apos;2017&apos;&#xd;
+	&quot;user&quot;: {&#xd;
+      &quot;name&quot;: &quot;Cristian&quot;,&#xd;
+      &quot;lastName&quot;: &quot;Ramirez&quot;,&#xd;
+      &quot;email&quot;: &quot;cristiano@gmail.com&quot;,&#xd;
+      &quot;creditCard&quot;: {&#xd;
+        &quot;number&quot;: &quot;4242424242424242&quot;,&#xd;
+        &quot;cvc&quot;: &quot;123&quot;,&#xd;
+        &quot;exp_month&quot;: &quot;12&quot;,&#xd;
+        &quot;exp_year&quot;: &quot;2017&quot;&#xd;
       },&#xd;
-      membership: &apos;7777888899990000&apos;&#xd;
-    }&#xd;
+      &quot;membership&quot;: &quot;7777888899990000&quot;    &#xd;
+   },&#xd;
 &#xd;
-  booking: {&#xd;
-      city: &apos;Morelia&apos;,&#xd;
-      cinema: &apos;Plaza Morelia&apos;,&#xd;
-      movie: &apos;Assasins Creed&apos;,&#xd;
-      schedule: now.toString(),&#xd;
-      cinemaRoom: 7,&#xd;
-      seats: [&apos;45&apos;],&#xd;
-      totalAmount: 71&#xd;
+  &quot;booking&quot;: {&#xd;
+      &quot;city&quot;: &quot;Morelia&quot;,&#xd;
+      &quot;cinema&quot;: &quot;Plaza Morelia&quot;,&#xd;
+      &quot;movie&quot;: &quot;Assasins Creed&quot;,&#xd;
+      &quot;schedule&quot;: &quot;2017-02-19T01:28:50.886Z&quot;,&#xd;
+      &quot;cinemaRoom&quot;: 7,&#xd;
+      &quot;seats&quot;: [&quot;45&quot;],&#xd;
+      &quot;totalAmount&quot;: 71&#xd;
     }&#xd;
  }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
@@ -174,60 +169,6 @@
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Content-type</stringProp>
-                <stringProp name="Header.value">application/json</stringProp>
-              </elementProp>
-            </collectionProp>
-          </HeaderManager>
-          <hashTree/>
-        </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Make a payment" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">&quot;paymentOrder&quot;: {&#xd;
-		userName: &apos;Cristian Ramirez&apos;,&#xd;
-      currency: &apos;mxn&apos;,&#xd;
-      number: &apos;4242424242424242&apos;,&#xd;
-      cvc: &apos;123&apos;,&#xd;
-      exp_month: &apos;12&apos;,&#xd;
-      exp_year: &apos;2017&apos;,&#xd;
-      amount: 71,&#xd;
-      description: `&#xd;
-        Tickect(s) for movie &quot;Assasins Creed&quot;,&#xd;
-        with seat(s) 47, 48&#xd;
-        at time 8 / feb / 17`&#xd;
-    }&#xd;
-</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain"></stringProp>
-          <stringProp name="HTTPSampler.port"></stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol"></stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/payment/makePurchase</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <boolProp name="HTTPSampler.monitor">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-        </HTTPSamplerProxy>
-        <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
-            <collectionProp name="HeaderManager.headers">
-              <elementProp name="" elementType="Header">
-                <stringProp name="Header.name">content-type</stringProp>
-                <stringProp name="Header.value">application/json; charset=utf-8</stringProp>
-              </elementProp>
-              <elementProp name="" elementType="Header">
-                <stringProp name="Header.name">Accept</stringProp>
                 <stringProp name="Header.value">application/json</stringProp>
               </elementProp>
             </collectionProp>

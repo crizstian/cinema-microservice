@@ -32,7 +32,7 @@ for ((i = 0; i < ${#array[@]}; ++i)); do
   docker tag $IMAGE_ID crizstian/$SERVICE:latest
 
   # we publish our image to our docker hub account
-  docker push crizstian/$SERVICE
+  docker push crizstian/$SERVICE:latest
 
   # we delete our local image because we are not going to need it
   # and mantain clean our environment
