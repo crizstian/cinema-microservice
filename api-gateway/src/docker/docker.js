@@ -36,8 +36,6 @@ const discoverRoutes = (container) => {
         }
       })
 
-      console.log(dockerSettings)
-
       services.forEach((service) => {
         addRoute(routes, service)
       })

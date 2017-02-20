@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="3.1" jmeter="3.1 r1770033">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Movies service" enabled="true">
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="cinemas service" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
@@ -30,8 +30,8 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1000</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1000</stringProp>
         <longProp name="ThreadGroup.start_time">1485133702000</longProp>
         <longProp name="ThreadGroup.end_time">1485133702000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -58,6 +58,20 @@
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="HTTPSampler.domain">192.168.99.101</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path"></stringProp>
+          <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        </ConfigTestElement>
+        <hashTree/>
+        <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="Server 192.168.99.102" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">192.168.99.102</stringProp>
           <stringProp name="HTTPSampler.port">8080</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -138,8 +152,11 @@
   &quot;booking&quot;: {&#xd;
       &quot;city&quot;: &quot;Morelia&quot;,&#xd;
       &quot;cinema&quot;: &quot;Plaza Morelia&quot;,&#xd;
-      &quot;movie&quot;: &quot;Assasins Creed&quot;,&#xd;
-      &quot;schedule&quot;: &quot;2017-02-19T01:28:50.886Z&quot;,&#xd;
+      &quot;movie&quot;: {&#xd;
+      	&quot;title&quot;: &quot;Assasins Creed&quot;,&#xd;
+      	&quot;format&quot;: &quot;IMAX&quot;&#xd;
+      	},&#xd;
+      &quot;schedule&quot;: &quot;2017-03-19T01:28:50.886Z&quot;,&#xd;
       &quot;cinemaRoom&quot;: 7,&#xd;
       &quot;seats&quot;: [&quot;45&quot;],&#xd;
       &quot;totalAmount&quot;: 71&#xd;
