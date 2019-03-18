@@ -64,13 +64,19 @@ const repository = (connection) => {
           }
         }
       }}]
+      
       const sendSchedules = (err, result) => {
         if (err) {
           reject('An error has occured fetching schedules by movie, err: ' + err)
         }
         resolve(result)
       }
-      db.collection('cinemas').aggregate([match, project, ...unwind, ...group], sendSchedules)
+      const cursor =  db.collection("cinemas").aggregate(
+        [match, project, ...unwind, ...group],
+        { cursor: {} }
+      );
+
+      cursor.toArray(sendSchedules);
     })
   }
 

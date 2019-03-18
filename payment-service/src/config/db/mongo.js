@@ -8,25 +8,29 @@ const getMongoURL = (options) => {
 }
 
 const connect = (options, mediator) => {
-  mediator.once('boot.ready', () => {
+  mediator.once("boot.ready", () => {
     MongoClient.connect(
-      getMongoURL(options), {
+      `mongodb://${options.servers}`,
+      {
         db: options.dbParameters(),
         server: options.serverParameters(),
         replset: options.replsetParameters(options.repl)
-      }, (err, db) => {
+      },
+      (err, db) => {
         if (err) {
-          mediator.emit('db.error', err)
+          mediator.emit("db.error", err);
         }
 
         db.admin().authenticate(options.user, options.pass, (err, result) => {
           if (err) {
-            mediator.emit('db.error', err)
+            mediator.emit("db.error", err);
           }
-          mediator.emit('db.ready', db)
-        })
-      })
-  })
-}
+          const database = db.db(options.db);
+          mediator.emit("db.ready", database);
+        });
+      }
+    );
+  });
+};
 
 module.exports = Object.assign({}, {connect})

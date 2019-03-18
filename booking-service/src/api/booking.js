@@ -7,6 +7,11 @@ module.exports = ({repo}, app) => {
     const paymentService = req.container.resolve('paymentService')
     const notificationService = req.container.resolve('notificationService')
 
+    console.log("\n")
+    console.log("body", req.body)
+    console.log("\n");
+
+
     Promise.all([
       validate(req.body.user, 'user'),
       validate(req.body.booking, 'booking')

@@ -4,7 +4,7 @@ process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
 module.exports = (payload) => {
   return new Promise((resolve, reject) => {
-    supertest('https://192.168.99.100:8080')
+    supertest(`http://${process.env.NOTIFICATION_SERVICE}`)
       .post('/notification/sendEmail')
       .send({payload})
       .end((err, res) => {
