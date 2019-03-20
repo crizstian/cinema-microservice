@@ -115,10 +115,8 @@ job "cinemas-microservice" {
        DB_PASS="cristianPassword2017"
        PORT="3000"
        DB_SERVERS="mongodb1.service.consul:27017,mongodb2.service.consul:27017,mongodb3.service.consul:27017"
-       NOTIFICATION_SERVICE="notification-api.service.consul:13000"
-      //  NOTIFICATION_SERVICE="${NOMAD_ADDR_booking-proxy_notification}"
-       PAYMENT_SERVICE="payment-api.service.consul:14000"
-      //  PAYMENT_SERVICE="${NOMAD_ADDR_booking-proxy_payment}"
+       NOTIFICATION_SERVICE="${NOMAD_ADDR_booking-proxy_notification}"
+       PAYMENT_SERVICE="${NOMAD_ADDR_booking-proxy_payment}"
       }
 
       resources {
@@ -141,68 +139,68 @@ job "cinemas-microservice" {
       }
     } # - end app - #
 
-    // task "booking-proxy" {
-    //   driver = "exec"
+    task "booking-proxy" {
+      driver = "exec"
 
-    //   config {
-    //     command = "/usr/local/bin/run-proxy.sh"
-    //     args    = ["${NOMAD_IP_proxy}", "${NOMAD_TASK_DIR}", "${NOMAD_META_source_proxy_name}"]
-    //   }
+      config {
+        command = "/usr/local/bin/run-proxy.sh"
+        args    = ["${NOMAD_IP_proxy}", "${NOMAD_TASK_DIR}", "${NOMAD_META_source_target}"]
+      }
 
-    //   meta {
-    //     source_proxy_name   = "booking-api"
-    //     notification_target = "notification-api"
-    //     payment_target      = "payment-api"
-    //   }
+      meta {
+        source_target       = "booking-api"
+        notification_target = "notification-api"
+        payment_target      = "payment-api"
+      }
 
-    //   template {
-    //     data = <<EOH
-    //       {
-    //           "name": "{{ env "NOMAD_META_source_proxy_name" }}-proxy",
-    //           "port": {{ env "NOMAD_PORT_proxy" }},
-    //           "kind": "connect-proxy",
-    //           "proxy": {
-    //             "destination_service_name": "{{ env "NOMAD_META_source_proxy_name" }}",
-    //             "destination_service_id": "{{ env "NOMAD_META_source_proxy_name" }}",
-    //             "upstreams": [
-    //               {
-    //                 "destination_name": "{{ env "NOMAD_META_payment_target" }}",
-    //                 "local_bind_address": "{{ env "NOMAD_IP_payment" }}",
-    //                 "local_bind_port": {{ env "NOMAD_PORT_payment" }}
-    //               },
-    //               {
-    //                 "destination_name": "{{ env "NOMAD_META_notification_target" }}",
-    //                 "local_bind_address": "{{ env "NOMAD_IP_notification" }}",
-    //                 "local_bind_port": {{ env "NOMAD_PORT_notification" }}
-    //               }
-    //             ]
-    //           }
-    //       }
-    //       EOH
+      template {
+        data = <<EOH
+          {
+              "name": "{{ env "NOMAD_META_source_target" }}-proxy",
+              "port": {{ env "NOMAD_PORT_proxy" }},
+              "kind": "connect-proxy",
+              "proxy": {
+                "destination_service_name": "{{ env "NOMAD_META_source_target" }}",
+                "destination_service_id": "{{ env "NOMAD_META_source_target" }}",
+                "upstreams": [
+                  {
+                    "destination_name": "{{ env "NOMAD_META_payment_target" }}",
+                    "local_bind_address": "{{ env "NOMAD_IP_payment" }}",
+                    "local_bind_port": {{ env "NOMAD_PORT_payment" }}
+                  },
+                  {
+                    "destination_name": "{{ env "NOMAD_META_notification_target" }}",
+                    "local_bind_address": "{{ env "NOMAD_IP_notification" }}",
+                    "local_bind_port": {{ env "NOMAD_PORT_notification" }}
+                  }
+                ]
+              }
+          }
+          EOH
 
-    //     destination = "local/${NOMAD_META_source_proxy_name}-proxy.json"
-    //   }
+        destination = "local/${NOMAD_META_source_target}-proxy.json"
+      }
 
-    //   resources {
-    //     network {
-    //       port "proxy" {}
-    //       port "notification" {}
-    //       port "payment" {}
-    //     }
-    //   }
-    // } # - end upstream proxy - #
+      resources {
+        network {
+          port "proxy" {}
+          port "notification" {}
+          port "payment" {}
+        }
+      }
+    } # - end upstream proxy - #
   } # end booking group
 
   group "notification-api" {
     count = 1
 
-    task "notification-api" {
+    task "notificationapi" {
       driver = "docker"
       config {
         image   = "crizstian/notification-service:v0.1"
         force_pull = true
         port_map {
-          service_port = 3000
+          serviceport = 3000
         }
       }
 
@@ -215,14 +213,14 @@ job "cinemas-microservice" {
       resources {
         network {
             mbits = 10
-            port "service_port" {static=13000}
+            port "serviceport" {}
             port "aero" {}
         }
       }
       service {
         name = "notification-api"
         tags = [ "cinemas-microservice" ]
-        port = "service_port"
+        port = "serviceport"
         check {
           type     = "tcp"
           interval = "10s"
@@ -231,41 +229,41 @@ job "cinemas-microservice" {
       }
     }
 
-    //  # - notification-api- proxy - #
-    // task "notification-api-proxy" {
-    //   driver = "exec"
+     # - notification-api- proxy - #
+    task "notification-api-proxy" {
+      driver = "exec"
 
-    //   config {
-    //     command = "/usr/local/bin/consul"
-    //     args    = [
-    //       "connect", "proxy",
-    //       "-http-addr", "${NOMAD_IP_proxy}:8500",
-    //       "-log-level", "trace",
-    //       "-service", "notification-api",
-    //       "-service-addr", "${NOMAD_ADDR_notification-api_service_port}",
-    //       "-listen", ":${NOMAD_PORT_proxy}",
-    //       "-register",
-    //     ]
-    //   }
+      config {
+        command = "/usr/local/bin/consul"
+        args    = [
+          "connect", "proxy",
+          "-http-addr", "${NOMAD_IP_proxy}:8500",
+          "-log-level", "trace",
+          "-service", "notification-api",
+          "-service-addr", "${NOMAD_ADDR_notificationapi_serviceport}",
+          "-listen", ":${NOMAD_PORT_proxy}",
+          "-register",
+        ]
+      }
 
-    //   resources {
-    //     network {
-    //       port "proxy" {}
-    //     }
-    //   }
-    // } # - end notification-api-proxy - #
+      resources {
+        network {
+          port "proxy" {}
+        }
+      }
+    } # - end notification-api-proxy - #
   }
 
   group "payment-api" {
     count = 1
 
-    task "payment-api" {
+    task "paymentapi" {
       driver = "docker"
       config {
         image   = "crizstian/payment-service:v0.1"
         force_pull = true
         port_map {
-          service_port = 3000
+          serviceport = 3000
         }
       }
 
@@ -280,14 +278,14 @@ job "cinemas-microservice" {
       resources {
         network {
             mbits = 10
-            port "service_port" {static=14000}
+            port "serviceport" {}
             port "aero" {}
         }
       }
       service {
         name = "payment-api"
         tags = [ "cinemas-microservice" ]
-        port = "service_port"
+        port = "serviceport"
         check {
           type     = "tcp"
           interval = "10s"
@@ -296,28 +294,28 @@ job "cinemas-microservice" {
       }
     }
 
-    //  # - payment-api- proxy - #
-    // task "payment-api-proxy" {
-    //   driver = "exec"
+     # - payment-api- proxy - #
+    task "payment-api-proxy" {
+      driver = "exec"
 
-    //   config {
-    //     command = "/usr/local/bin/consul"
-    //     args    = [
-    //       "connect", "proxy",
-    //       "-http-addr", "${NOMAD_IP_proxy}:8500",
-    //       "-log-level", "trace",
-    //       "-service", "payment-api",
-    //       "-service-addr", "${NOMAD_ADDR_payment-api_service_port}",
-    //       "-listen", ":${NOMAD_PORT_proxy}",
-    //       "-register",
-    //     ]
-    //   }
+      config {
+        command = "/usr/local/bin/consul"
+        args    = [
+          "connect", "proxy",
+          "-http-addr", "${NOMAD_IP_proxy}:8500",
+          "-log-level", "trace",
+          "-service", "payment-api",
+          "-service-addr", "${NOMAD_ADDR_paymentapi_serviceport}",
+          "-listen", ":${NOMAD_PORT_proxy}",
+          "-register",
+        ]
+      }
 
-    //   resources {
-    //     network {
-    //       port "proxy" {}
-    //     }
-    //   }
-    // } # - end payment-api-proxy - #
+      resources {
+        network {
+          port "proxy" {}
+        }
+      }
+    } # - end payment-api-proxy - #
   }
 }

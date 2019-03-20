@@ -5,7 +5,9 @@ const repository = require('./repository/repository')
 const di = require('./config')
 const mediator = new EventEmitter()
 
-console.log('--- Booking Service ---')
+console.log("--- Booking Service ---");
+console.log("Payment Sidecar Proxy: ", process.env.PAYMENT_SERVICE);
+console.log("Notification Sidecar Proxy: ", process.env.NOTIFICATION_SERVICE);
 console.log('Connecting to booking repository...')
 
 process.on('uncaughtException', (err) => {

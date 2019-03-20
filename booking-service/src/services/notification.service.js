@@ -4,6 +4,9 @@ process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
 module.exports = (payload) => {
   return new Promise((resolve, reject) => {
+    console.log("Notification payload");
+    console.log(payload);
+
     supertest(`http://${process.env.NOTIFICATION_SERVICE}`)
       .post('/notification/sendEmail')
       .send({payload})
