@@ -5,7 +5,7 @@ process.env.NODE_TLS_ACCEPT_UNTRUSTED_CERTIFICATES_THIS_IS_INSECURE = '1'
 
 describe('Booking Service', () => {
   const api = supertest(
-    "https://aero-cluster-nlb-326dfedca9b7e0c0.elb.us-west-1.amazonaws.com/booking-api"
+    "https://aero-aws-us-west-1-nlb-078cdbc4f3e66439.elb.us-west-1.amazonaws.com/booking-api"
   );
   const now = new Date()
   now.setDate(now.getDate() + 1)

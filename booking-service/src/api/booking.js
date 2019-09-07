@@ -65,4 +65,12 @@ module.exports = ({repo}, app) => {
       })
       .catch(next)
   })
+
+  app.get('/health', (req, res, next) => {
+    res.status(status.OK).send("Booking Service Online")
+  })
+  
+  app.get('/', (req, res, next) => {
+    res.status(status.OK).send("Booking Index")
+  })
 }
