@@ -7,7 +7,8 @@ const {dbSettings} = require('../config/config')
 
 describe('Repository', () => {
   it('should connect with a promise', () => {
-    repository.connect({}).should.be.a.Promise()
+    const connectionStub = { collection: () => {} }
+    repository.connect(connectionStub).should.be.a.Promise()
   })
 
   it('should get movie premiers', (done) => {
