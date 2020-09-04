@@ -40,7 +40,7 @@
     "helmet": "^3.4.0",
     "http-status": "^0.2.5",
     "joi": "^10.2.0",
-    "mongodb": "^2.1.18",
+    "mongodb": "^3.1.13",
     "morgan": "^1.7.0",
     "spdy": "^3.4.4",
     "supertest": "^3.0.0"
