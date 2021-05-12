@@ -44,7 +44,7 @@
     "joi": "^10.2.0",
     "mongodb": "^2.1.18",
     "morgan": "^1.7.0",
-    "nodemailer": "^3.0.2",
+    "nodemailer": "^6.4.16",
     "nodemailer-smtp-transport": "^2.7.2",
     "spdy": "^3.4.4"
   }
