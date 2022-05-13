@@ -28,7 +28,7 @@ $ ./deploy.sh kubernetes apply|delete|diff
 
 This will basically create every microservice container image
 
-and deploy every docker service in the swarm.
+and deploy every docker service in the kubernetes.
 
 ### TODO
 
