@@ -30,8 +30,6 @@ This will basically create every microservice container image
 
 and deploy every docker service in the swarm.
 
-To monitor the cluster in a graphic mode we can go and visit the following url: `http://192.168.99.100:9000`
-
 ### TODO
 
 - Persistent Volume for MongoDB
