@@ -1,0 +1,44 @@
+{
+  "name": "movies-service",
+  "version": "1.0.0",
+  "description": "A movie service, microservice example with nodejs",
+  "author": "Cristian Ramirez Rosas <cristiano.rosetti@gmail.com>",
+  "license": "ISC",
+  "main": "index.js",
+  "standard": {
+    "env": [
+      "mocha"
+    ],
+    "ignore": [
+      "mock"
+    ]
+  },
+  "scripts": {
+    "test": "mocha -R spec src/**/*.spec.js",
+    "start": "node src/index.js",
+    "lint": "standard --verbose | snazzy",
+    "node-debug": "DEBUG=express* node src/index.js",
+    "chrome-debug": "node --debug-brk --inspect src/index.js"
+  },
+  "keywords": [
+    "express",
+    "mongodb",
+    "docker",
+    "microservice"
+  ],
+  "devDependencies": {
+    "eslint": "^3.13.1",
+    "mocha": "^3.2.0",
+    "should": "^11.1.2",
+    "snazzy": "^6.0.0",
+    "standard": "^8.6.0",
+    "supertest": "^2.0.1"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "helmet": "^3.4.0",
+    "http-status": "^0.2.5",
+    "mongodb": "^2.1.18",
+    "morgan": "^1.7.0"
+  }
+}
