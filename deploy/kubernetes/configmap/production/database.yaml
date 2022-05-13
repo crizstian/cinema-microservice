@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-wonderful-database
+  namespace: production
+data:
+  DB_USER: michaelact
+  DB_PASS: michaelactTerdiam100
+  DB_REPLS: rs1
+  DB_SERVERS: >-
+    'wonderful-mongodb:27017'

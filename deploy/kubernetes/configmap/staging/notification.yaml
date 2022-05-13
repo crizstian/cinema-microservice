@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-wonderful-notification
+  namespace: staging
+data:
+  PORT: '3000'
+  DB: notification
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certs-wonderful-notification
+  namespace: staging
+data:
+  server.crt: |-
+    -----BEGIN CERTIFICATE-----
+    
+    -----END CERTIFICATE-----
+  server.key: |-
+    -----BEGIN PRIVATE KEY-----
+    
+    -----END PRIVATE KEY-----
+
