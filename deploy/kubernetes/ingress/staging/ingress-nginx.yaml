@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wonderful-cinema
+  namespace: staging
+  labels:
+    app.kubernetes.io/name: wonderful-cinema-ingress
+    app.kubernetes.io/component: front-tier
+    app.kubernetes.io/part-of: wonderful-cinema
+    app.kubernetes.io/version: latest
+    app.kubernetes.io/instance: all
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: staging.wonderful.id
+    http:
+      paths:
+      - pathType: Prefix
+        path: '/cinemas'
+        backend:
+          service:
+            name: wonderful-cinema-catalog
+            port:
+              number: 3000
+      - pathType: Prefix
+        path: '/movies'
+        backend:
+          service:
+            name: wonderful-movies
+            port:
+              number: 3000
+      - pathType: Prefix
+        path: '/booking'
+        backend:
+          service:
+            name: wonderful-booking
+            port:
+              number: 3000
+      - pathType: Prefix
+        path: '/notification'
+        backend:
+          service:
+            name: wonderful-notification
+            port:
+              number: 3000
+      - pathType: Prefix
+        path: '/payment'
+        backend:
+          service:
+            name: wonderful-payment
+            port:
+              number: 3000

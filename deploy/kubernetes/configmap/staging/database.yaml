@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-wonderful-database
+  namespace: staging
+data:
+  DB_USER: michaelact
+  DB_PASS: michaelactMenjawab100
+  DB_REPLS: rs1
+  DB_SERVERS: >-
+    'wonderful-mongodb:27017'

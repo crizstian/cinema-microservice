@@ -1,14 +1,10 @@
-# Build a NodeJS microservice and deploy it to Docker
-
-![](./cover.png)
-
-This is the repo example for the article.
+# Build a NodeJS microservice and deploy it to Kubernetes
 
 ### Stack
 We’ll use a simple NodeJS service with a MongoDB for our backend.
 - NodeJS 7.5.0
 - MongoDB 3.4.2
-- Docker for Mac 1.13.0
+- Docker 20.10.11
 
 ### Microservices
 
@@ -21,27 +17,24 @@ We’ll use a simple NodeJS service with a MongoDB for our backend.
 
 ### How to run the cinema microservice
 
-We need to have docker installed previously.
+We need to have docker and kubernetes installed previously.
+
+Please input server.crt and server.key contents in `deploy/kubernetes/configmap/**/*.yaml`
 
 ```
-$ bash < kraken.sh
+$ ./build.sh setup-container-images
+$ ./deploy.sh kubernetes apply|delete|diff
 ```
 
-This will basically install every microservice and setup the docker swarm cluster
+This will basically create every microservice container image
 
 and deploy every docker service in the swarm.
 
 To monitor the cluster in a graphic mode we can go and visit the following url: `http://192.168.99.100:9000`
 
-and this will give us the rancherOS web interface.
+### TODO
 
-### Blog posts
-
-- [Build a NodeJS cinema microservice and deploying it with docker (part 1)](https://medium.com/@cramirez92/build-a-nodejs-cinema-microservice-and-deploying-it-with-docker-part-1-7e28e25bfa8b)
-- [Build a NodeJS cinema microservice and deploying it with docker (part 2)](https://medium.com/@cramirez92/build-a-nodejs-cinema-microservice-and-deploying-it-with-docker-part-2-e05cc7b126e0)
-- [Build a NodeJS cinema booking microservice and deploying it with docker (part 3)](https://medium.com/@cramirez92/build-a-nodejs-cinema-booking-microservice-and-deploying-it-with-docker-part-3-9c384e21fbe0)
-- [Build a NodeJS cinema microservice and deploying it with docker (part 4)](https://medium.com/@cramirez92/build-a-nodejs-cinema-api-gateway-and-deploying-it-to-docker-part-4-703c2b0dd269#.en6g5buwl)
-- [Deploy a Nodejs microservices to a Docker Swarm Cluster (Docker from zero to hero)](https://medium.com/@cramirez92/deploy-a-nodejs-microservices-to-a-docker-swarm-cluster-docker-from-zero-to-hero-464fa1369ea0#.548ni3uxv)
+- Persistent Volume for MongoDB
 
 ### LICENSE
 The MIT License (MIT)

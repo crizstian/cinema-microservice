@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wonderful-mongodb
+spec:
+  replicas: 1
+  serviceName: wonderful-mongodb
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wonderful-mongodb
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wonderful-mongodb
+        app.kubernetes.io/instance: all
+        app.kubernetes.io/version: 3.4.2
+        app.kubernetes.io/component: cache
+        app.kubernetes.io/part-of: spring-boot
+        app.kubernetes.io/managed-by: kubectl
+      name: wonderful-mongodb
+    spec:
+      containers:
+        - image: mongo:3.4.2
+          name: mongodb
+          ports:
+            - containerPort: 6379
+          resources: {}
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: env-wonderful-database
+                  key: DB_USER
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: env-wonderful-database
+                  key: DB_PASS
+      restartPolicy: Always

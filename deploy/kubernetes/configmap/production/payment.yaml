@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-wonderful-payment
+  namespace: production
+data:
+  PORT: '3000'
+  DB: payment
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certs-wonderful-payment
+  namespace: production
+data:
+  server.crt: |-
+    -----BEGIN CERTIFICATE-----
+    
+    -----END CERTIFICATE-----
+  server.key: |-
+    -----BEGIN PRIVATE KEY-----
+    
+    -----END PRIVATE KEY-----

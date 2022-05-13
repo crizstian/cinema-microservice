@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wonderful-notification
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wonderful-notification
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wonderful-notification
+        app.kubernetes.io/instance: all
+        app.kubernetes.io/version: latest
+        app.kubernetes.io/component: back
+        app.kubernetes.io/part-of: wonderful-cinema
+        app.kubernetes.io/managed-by: kubectl
+      name: wonderful-notification
+    spec:
+      containers:
+        - image: michaelact/wonderful-notification:latest
+          name: notification
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: env-wonderful-database
+            - configMapRef:
+                name: env-wonderful-notification
+          volumeMounts:
+            - name: certificates
+              mountPath: /home/nupp/app/src/config/ssl/server.crt
+              subPath: server.crt
+            - name: certificates
+              mountPath: /home/nupp/app/src/config/ssl/server.key
+              subPath: server.key
+      volumes:
+        - name: certificates
+          configMap:
+            name: certs-wonderful-notification
+            items:
+            - key: server.crt
+              path: server.crt
+            - key: server.key
+              path: server.key
+      restartPolicy: Always

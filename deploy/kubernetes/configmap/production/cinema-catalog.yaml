@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-wonderful-cinema-catalog
+  namespace: production
+data:
+  PORT: '3000'
+  DB: cinema-catalog
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certs-wonderful-cinema-catalog
+  namespace: production
+data:
+  server.crt: |-
+    -----BEGIN CERTIFICATE-----
+    
+    -----END CERTIFICATE-----
+  server.key: |-
+    -----BEGIN PRIVATE KEY-----
+    
+    -----END PRIVATE KEY-----

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-wonderful-movies
+  namespace: staging
+data:
+  PORT: '3000'
+  DB: movies
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certs-wonderful-movies
+  namespace: staging
+data:
+  server.crt: |-
+    -----BEGIN CERTIFICATE-----
+    
+    -----END CERTIFICATE-----
+  server.key: |-
+    -----BEGIN PRIVATE KEY-----
+    
+    -----END PRIVATE KEY-----
