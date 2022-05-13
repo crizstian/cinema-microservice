@@ -5,15 +5,15 @@ We’ll use a simple NodeJS service with a MongoDB for our backend.
 - NodeJS 7.5.0
 - MongoDB 3.4.2
 - Docker 20.10.11
+- Kubernetes 1.22.4
 
 ### Microservices
 
-- [Movies Service example](./movies-service)
-- [Cinema Catalog Service example](./cinema-catalog-service)
-- [Booking Service example](./booking-service)
-- [Payment Service example](./payment-service)
-- [Notification Service example](./notification-service)
-- [API Gateway Service example](./api-gateway)
+- [Movies Service example](./movies)
+- [Cinema Catalog Service example](./cinema-catalog)
+- [Booking Service example](./booking)
+- [Payment Service example](./payment)
+- [Notification Service example](./notification)
 
 ### How to run the cinema microservice
 
